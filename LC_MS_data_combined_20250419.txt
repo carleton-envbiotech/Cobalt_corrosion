@@ -1,0 +1,145 @@
+"Sample Name"	"Comment"	"Time"	"Wire_treatment"	"Abiotic_vs_biotic"	"Replicate"	"Metabolite"	"Concentration_ug_mL"	"Mean_concentration_ug_mL"	"Median_concentration_ug_mL"	"Stdev_concentration_ug_mL"
+"0-5.5-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"0-5.6-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"0-6.5-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"0-6.6-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"24-5.5-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPHZ"	0.115645038840083	0.118336966209558	0.118336966209558	0.00380696019483499
+"24-5.6-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPHZ"	0.121028893579033	0.118336966209558	0.118336966209558	0.00380696019483499
+"24-6.5-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 1"	"2-OHPHZ"	0.447506268679748	0.51702860851276	0.51702860851276	0.0983194358797574
+"24-6.6-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 2"	"2-OHPHZ"	0.586550948345773	0.51702860851276	0.51702860851276	0.0983194358797574
+"72-5.5-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPHZ"	0.684513664387737	0.663655071373566	0.663655071373566	0.0294985051326602
+"72-5.6-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPHZ"	0.642796478359396	0.663655071373566	0.663655071373566	0.0294985051326602
+"72-6.5-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 1"	"2-OHPHZ"	1.63639219094182	1.83724547837169	1.83724547837169	0.284049443130545
+"72-6.6-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 2"	"2-OHPHZ"	2.03809876580157	1.83724547837169	1.83724547837169	0.284049443130545
+"168-5.5-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPHZ"	1.36383983987356	1.24234920907731	1.24234920907731	0.171813697773315
+"168-5.6-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPHZ"	1.12085857828106	1.24234920907731	1.24234920907731	0.171813697773315
+"168-6.5-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 1"	"2-OHPHZ"	1.75599049706395	2.17208787855502	2.17208787855502	0.588450560172599
+"168-6.6-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 2"	"2-OHPHZ"	2.58818526004608	2.17208787855502	2.17208787855502	0.588450560172599
+"0-3.1-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	0.551074828002732	0.498232268839729	0.498232268839729	0.0747306638388205
+"0-3.2-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	0.445389709676727	0.498232268839729	0.498232268839729	0.0747306638388205
+"0-4.1-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	0.394801451602613	0.467152356052371	0.467152356052371	0.102319630322808
+"0-4.2-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	0.539503260502129	0.467152356052371	0.467152356052371	0.102319630322808
+"24-3.1-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	2.32353524774656	2.26223347875319	2.26223347875319	0.0866937931078762
+"24-3.2-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	2.20093170975983	2.26223347875319	2.26223347875319	0.0866937931078762
+"24-4.1-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	0.930832535351095	1.02110264718445	1.02110264718445	0.127661216431673
+"24-4.2-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	1.11137275901781	1.02110264718445	1.02110264718445	0.127661216431673
+"72-3.1-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	3.24025966578118	3.10301787949781	3.10301787949781	0.194089195486253
+"72-3.2-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	2.96577609321444	3.10301787949781	3.10301787949781	0.194089195486253
+"72-4.1-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	1.53705152645919	1.62239750709535	1.62239750709535	0.120697443309691
+"72-4.2-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	1.70774348773151	1.62239750709535	1.62239750709535	0.120697443309691
+"168-3.1-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	3.00278292403631	3.04849659258986	3.04849659258986	0.0646488900542576
+"168-3.2-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	3.09421026114341	3.04849659258986	3.04849659258986	0.0646488900542576
+"168-4.1-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPHZ"	1.52555629896201	1.58935894931225	1.58935894931225	0.0902305734406506
+"168-4.2-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPHZ"	1.65316159966248	1.58935894931225	1.58935894931225	0.0902305734406506
+"0-1.1-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"0-1.2-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"0-2.1-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"0-2.2-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"24-1.1-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"24-1.2-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"24-2.1-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"24-2.2-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"72-1.1-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"72-1.2-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"72-2.1-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"72-2.2-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"168-1.1-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"168-1.2-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"168-2.1-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 1"	"2-OHPHZ"	0	0	0	0
+"168-2.2-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 2"	"2-OHPHZ"	0	0	0	0
+"0-5.5-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 1"	"PCA"	3.32226356314857	3.08196026467339	3.08196026467339	0.339840183786596
+"0-5.6-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 2"	"PCA"	2.8416569661982	3.08196026467339	3.08196026467339	0.339840183786596
+"0-6.5-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 1"	"PCA"	3.03200803069756	3.45849786150165	3.45849786150165	0.603147702937347
+"0-6.6-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 2"	"PCA"	3.88498769230574	3.45849786150165	3.45849786150165	0.603147702937347
+"24-5.5-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 1"	"PCA"	3.58050403581367	3.41530545993894	3.41530545993894	0.233626066486768
+"24-5.6-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 2"	"PCA"	3.25010688406421	3.41530545993894	3.41530545993894	0.233626066486768
+"24-6.5-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 1"	"PCA"	3.438889118806	3.90915036850475	3.90915036850475	0.665049837182502
+"24-6.6-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 2"	"PCA"	4.37941161820351	3.90915036850475	3.90915036850475	0.665049837182502
+"72-5.5-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 1"	"PCA"	4.1055485470742	3.87926047437604	3.87926047437604	0.320019661413013
+"72-5.6-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 2"	"PCA"	3.65297240167788	3.87926047437604	3.87926047437604	0.320019661413013
+"72-6.5-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 1"	"PCA"	4.53718817504342	5.00686755224381	5.00686755224381	0.664226945203728
+"72-6.6-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 2"	"PCA"	5.47654692944419	5.00686755224381	5.00686755224381	0.664226945203728
+"168-5.5-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 1"	"PCA"	4.67687202319932	4.44251256826071	4.44251256826071	0.331434319644548
+"168-5.6-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 2"	"PCA"	4.2081531133221	4.44251256826071	4.44251256826071	0.331434319644548
+"168-6.5-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 1"	"PCA"	4.70928395717414	5.5963194672136	5.5963194672136	1.25445764860433
+"168-6.6-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 2"	"PCA"	6.48335497725305	5.5963194672136	5.5963194672136	1.25445764860433
+"0-3.1-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 1"	"PCA"	9.26423544236414	9.41001432305284	9.41001432305284	0.206162470177521
+"0-3.2-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 2"	"PCA"	9.55579320374153	9.41001432305284	9.41001432305284	0.206162470177521
+"0-4.1-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 1"	"PCA"	8.32877168030256	8.8324260976988	8.8324260976988	0.712274907830885
+"0-4.2-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 2"	"PCA"	9.33608051509504	8.8324260976988	8.8324260976988	0.712274907830885
+"24-3.1-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 1"	"PCA"	9.18379475675449	9.03541095113756	9.03541095113756	0.209846390339997
+"24-3.2-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 2"	"PCA"	8.88702714552063	9.03541095113756	9.03541095113756	0.209846390339997
+"24-4.1-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 1"	"PCA"	7.36722130857759	7.9581433769844	7.9581433769844	0.835690003446474
+"24-4.2-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 2"	"PCA"	8.54906544539121	7.9581433769844	7.9581433769844	0.835690003446474
+"72-3.1-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 1"	"PCA"	8.72994431702638	8.78920208883501	8.78920208883501	0.0838031445677671
+"72-3.2-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 2"	"PCA"	8.84845986064363	8.78920208883501	8.78920208883501	0.0838031445677671
+"72-4.1-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 1"	"PCA"	7.68958634402539	8.26877188239912	8.26877188239912	0.819092043498487
+"72-4.2-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 2"	"PCA"	8.84795742077285	8.26877188239912	8.26877188239912	0.819092043498487
+"168-3.1-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 1"	"PCA"	8.47938209521142	8.46563775568914	8.46563775568914	0.0194374313582633
+"168-3.2-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 2"	"PCA"	8.45189341616686	8.46563775568914	8.46563775568914	0.0194374313582633
+"168-4.1-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 1"	"PCA"	7.1652793281195	7.83539839537687	7.83539839537687	0.947691473320182
+"168-4.2-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 2"	"PCA"	8.50551746263424	7.83539839537687	7.83539839537687	0.947691473320182
+"0-1.1-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"0-1.2-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"0-2.1-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"0-2.2-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"24-1.1-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"24-1.2-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"24-2.1-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"24-2.2-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"72-1.1-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"72-1.2-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"72-2.1-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"72-2.2-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"168-1.1-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"168-1.2-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"168-2.1-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 1"	"PCA"	0	0	0	0
+"168-2.2-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 2"	"PCA"	0	0	0	0
+"0-5.5-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPCA"	0	0.0683024520609835	0.0683024520609835	0.0965942540479811
+"0-5.6-B"	"2025-01-14_0hr_Wire+10%inoc_5_A-F"	0	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.136604904121967	0.0683024520609835	0.0683024520609835	0.0965942540479811
+"0-6.5-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.155492010470709	0.21196689332774	0.21196689332774	0.079867545269845
+"0-6.6-B"	"2025-01-14_0hr_NoWire+10%inoc_6_A-F"	0	"No wire"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.268441776184771	0.21196689332774	0.21196689332774	0.079867545269845
+"24-5.5-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.246700118786704	0.248994828271743	0.248994828271743	0.00324520927544826
+"24-5.6-B"	"2025-01-15_24hr_Wire+10%inoc_5_A-F"	24	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.251289537756782	0.248994828271743	0.248994828271743	0.00324520927544826
+"24-6.5-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.325560105984049	0.358907709610526	0.358907709610526	0.0471606333212066
+"24-6.6-B"	"2025-01-15_24hr_NoWire+10%inoc_6_A-F"	24	"No wire"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.392255313237004	0.358907709610526	0.358907709610526	0.0471606333212066
+"72-5.5-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.375076294147507	0.340716077950176	0.340716077950176	0.0485926837523368
+"72-5.6-B"	"2025-01-17_72hr_Wire+10%inoc_5_A-F"	72	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.306355861752845	0.340716077950176	0.340716077950176	0.0485926837523368
+"72-6.5-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.330681758500662	0.473463729930058	0.473463729930058	0.201924200457819
+"72-6.6-B"	"2025-01-17_72hr_NoWire+10%inoc_6_A-F"	72	"No wire"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.616245701359453	0.473463729930058	0.473463729930058	0.201924200457819
+"168-5.5-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.139142249452887	0.0695711247264433	0.0695711247264433	0.0983884281376863
+"168-5.6-B"	"2025-01-21_168hr_Wire+10%inoc_5_A-F"	168	"Wire included"	"Wild type"	"Replicate 2"	"2-OHPCA"	0	0.0695711247264433	0.0695711247264433	0.0983884281376863
+"168-6.5-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 1"	"2-OHPCA"	0.116492249386293	0.262388783403343	0.262388783403343	0.20632885711014
+"168-6.6-B"	"2025-01-21_168hr_NoWire+10%inoc_6_A-F"	168	"No wire"	"Wild type"	"Replicate 2"	"2-OHPCA"	0.408285317420394	0.262388783403343	0.262388783403343	0.20632885711014
+"0-3.1-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0.881247202244291	0.806371343508161	0.806371343508161	0.105890454918966
+"0-3.2-S"	"2024-06-25_0hr_SpentMedia_3_A-F"	0	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0.731495484772032	0.806371343508161	0.806371343508161	0.105890454918966
+"0-4.1-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0.952401284928888	1.07744501769372	1.07744501769372	0.176838542765786
+"0-4.2-S"	"2024-06-25_0hr_Wire+SpentMedia_4_A-F"	0	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPCA"	1.20248875045856	1.07744501769372	1.07744501769372	0.176838542765786
+"24-3.1-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0.760844143592126	0.721391256899546	0.721391256899546	0.0557948074354147
+"24-3.2-S"	"2024-06-26_24hr_SpentMedia_3_A-F"	24	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0.681938370206967	0.721391256899546	0.721391256899546	0.0557948074354147
+"24-4.1-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0.614459167801584	0.694798610951592	0.694798610951592	0.113617130096245
+"24-4.2-S"	"2024-06-26_24hr_Wire+SpentMedia_4_A-F"	24	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0.775138054101601	0.694798610951592	0.694798610951592	0.113617130096245
+"72-3.1-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0.282354298228762	0.141177149114381	0.141177149114381	0.199654638974726
+"72-3.2-S"	"2024-06-28_72hr_SpentMedia_3_A-F"	72	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0	0.141177149114381	0.141177149114381	0.199654638974726
+"72-4.1-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"72-4.2-S"	"2024-06-28_72hr_Wire+SpentMedia_4_A-F"	72	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"168-3.1-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0	0.0989678559910451	0.0989678559910451	0.139961684181523
+"168-3.2-S"	"2024-07-02_168hr_SpentMedia_3_A-F"	168	"No wire"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0.19793571198209	0.0989678559910451	0.0989678559910451	0.139961684181523
+"168-4.1-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 1"	"2-OHPCA"	0	0.0934561259101477	0.0934561259101477	0.132166920748979
+"168-4.2-S"	"2024-07-02_168hr_Wire+SpentMedia_4_A-F"	168	"Wire included"	"Spent medium"	"Replicate 2"	"2-OHPCA"	0.186912251820295	0.0934561259101477	0.0934561259101477	0.132166920748979
+"0-1.1-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"0-1.2-P"	"2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F"	0	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"0-2.1-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"0-2.2-P"	"2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F"	0	"No wire"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"24-1.1-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"24-1.2-P"	"2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F"	24	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"24-2.1-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"24-2.2-P"	"2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F"	24	"No wire"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"72-1.1-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"72-1.2-P"	"2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F"	72	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"72-2.1-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"72-2.2-P"	"2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F"	72	"No wire"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"168-1.1-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"168-1.2-P"	"2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F"	168	"Wire included"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0
+"168-2.1-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 1"	"2-OHPCA"	0	0	0	0
+"168-2.2-P"	"2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F"	168	"No wire"	"∆phz"	"Replicate 2"	"2-OHPCA"	0	0	0	0

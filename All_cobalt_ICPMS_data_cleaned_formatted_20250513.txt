@@ -1,0 +1,409 @@
+Short_name	Sample_name	Cobalt_concentration_ug_L	Cobalt_concentration_uM	Time	Wire_treatment	Abiotic_vs_biotic	DMSO_treatment	Metabolite_treatment	Replicate	Sample_preservation	Bottle_number	Recovery
+0-1.1	2024-02-13_0hr_Wire+Media_1_A-F	355.822	6.037717792	0	Wire included	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	1	0.9901
+0-1.2	2024-02-13_0hr_Wire+Media_1_F-A	325.801	5.528310488	0	Wire included	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	1	0.9901
+0-2.1	2024-02-13_0hr_Wire+Media_2_A-F	288.152	4.889468491	0	Wire included	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	2	0.9901
+0-2.2	2024-02-13_0hr_Wire+Media_2_F-A	315.47	5.353010303	0	Wire included	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	2	0.9901
+0-3.1	2024-02-13_0hr_NoWire+Media_3_A-F	117.311	1.990575939	0	No wire	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	3	
+0-3.2	2024-02-13_0hr_NoWire+Media_3_F-A	125.661	2.132261792	0	No wire	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	3	
+0-4.1	2024-02-13_0hr_NoWire+Media_4_A-F	112.103	1.902204691	0	No wire	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	4	
+0-4.2	2024-02-13_0hr_NoWire+Media_4_F-A	116.933	1.984161897	0	No wire	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	4	
+0-5.1	2024-02-13_0hr_Wire+Media+DMSO_5_A-F	225.212	3.821479558	0	Wire included	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	5	
+0-5.2	2024-02-13_0hr_Wire+Media+DMSO_5_F-A	227.839	3.866055455	0	Wire included	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	5	
+0-6.1	2024-02-13_0hr_Wire+Media+DMSO_6_A-F	205.941	3.494482184	0	Wire included	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	6	
+0-6.2	2024-02-13_0hr_Wire+Media+DMSO_6_F-A	212.285	3.602129496	0	Wire included	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	6	
+0-7.1	2024-02-13_0hr_NoWire+Media+DMSO_7_A-F	110.293	1.871491949	0	No wire	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	7	
+0-7.2	2024-02-13_0hr_NoWire+Media+DMSO_7_F-A	116.389	1.974931106	0	No wire	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	7	
+0-8.1	2024-02-13_0hr_NoWire+Media+DMSO_8_A-F	106.395	1.80534926	0	No wire	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	8	
+0-8.2	2024-02-13_0hr_NoWire+Media+DMSO_8_F-A	103.103	1.749489401	0	No wire	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	8	
+0-9.1	2024-02-13_0hr_Wire+10%inoc_9_A-F	289.932	4.919672181	0	Wire included	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	9	0.9405
+0-9.2	2024-02-13_0hr_Wire+10%inoc_9_F-A	277.722	4.712488437	0	Wire included	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	9	0.9405
+0-10.1	2024-02-13_0hr_Wire+10%inoc_10_A-F	284.022	4.819389141	0	Wire included	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	10	0.9405
+0-10.2	2024-02-13_0hr_Wire+10%inoc_10_F-A	291.298	4.942850969	0	Wire included	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	10	0.9405
+0-11.1	2024-02-13_0hr_NoWire+10%inoc_11_A-F	180.993	3.071155399	0	No wire	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	11	
+0-11.2	2024-02-13_0hr_NoWire+10%inoc_11_F-A	119.411	2.026209507	0	No wire	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	11	
+0-12.1	2024-02-13_0hr_NoWire+10%inoc_12_A-F	120.517	2.04497652	0	No wire	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	12	
+0-12.2	2024-02-13_0hr_NoWire+10%inoc_12_F-A	115.207	1.954874498	0	No wire	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	12	
+0-13.1	2024-02-13_0hr_Wire+10%inoc+DMSO_13_A-F	239.113	4.057356809	0	Wire included	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	13	
+0-13.2	2024-02-13_0hr_Wire+10%inoc+DMSO_13_F-A	210.364	3.569533266	0	Wire included	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	13	
+0-14.1	2024-02-13_0hr_Wire+10%inoc+DMSO_14_A-F	209.714	3.558503828	0	Wire included	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	14	
+0-14.2	2024-02-13_0hr_Wire+10%inoc+DMSO_14_F-A	195.517	3.317603941	0	Wire included	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	14	
+0-15.1	2024-02-13_0hr_NoWire+10%inoc+DMSO_15_A-F	109.286	1.854404805	0	No wire	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	15	
+0-15.2	2024-02-13_0hr_NoWire+10%inoc+DMSO_15_F-A	111.687	1.895145851	0	No wire	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	15	
+0-16.1	2024-02-13_0hr_NoWire+10%inoc+DMSO_16_A-F	114.733	1.946831493	0	No wire	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	16	
+0-16.2	2024-02-13_0hr_NoWire+10%inoc+DMSO_16_F-A	106.972	1.815140007	0	No wire	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	16	
+24-1.1	2024-02-14_24hr_Wire+Media_1_A-F	9024.175	153.1255008	24	Wire included	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	1	0.9901
+24-1.2	2024-02-14_24hr_Wire+Media_1_F-A	7299.655	123.863215	24	Wire included	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	1	0.9901
+24-2.1	2024-02-14_24hr_Wire+Media_2_A-F	5212.481	88.4472834	24	Wire included	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	2	0.9901
+24-2.2	2024-02-14_24hr_Wire+Media_2_F-A	7395.238	125.4851022	24	Wire included	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	2	0.9901
+24-3.1	2024-02-14_24hr_NoWire+Media_3_A-F	55.11	0.935126629	24	No wire	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	3	
+24-3.2	2024-02-14_24hr_NoWire+Media_3_F-A	141.95	2.4086595	24	No wire	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	3	
+24-4.1	2024-02-14_24hr_NoWire+Media_4_A-F	53.988	0.916088123	24	No wire	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	4	
+24-4.2	2024-02-14_24hr_NoWire+Media_4_F-A	132.908	2.255231538	24	No wire	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	4	
+24-5.1	2024-02-14_24hr_Wire+Media+DMSO_5_A-F	7028.212	119.2572709	24	Wire included	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	5	
+24-5.2	2024-02-14_24hr_Wire+Media+DMSO_5_F-A	2154.344	36.55569667	24	Wire included	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	5	
+24-6.1	2024-02-14_24hr_Wire+Media+DMSO_6_A-F	7683.956	130.3841748	24	Wire included	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	6	
+24-6.2	2024-02-14_24hr_Wire+Media+DMSO_6_F-A	1987.196	33.71946829	24	Wire included	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	6	
+24-7.1	2024-02-14_24hr_NoWire+Media+DMSO_7_A-F	95.283	1.616796782	24	No wire	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	7	
+24-7.2	2024-02-14_24hr_NoWire+Media+DMSO_7_F-A	97.167	1.648765182	24	No wire	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	7	
+24-8.1	2024-02-14_24hr_NoWire+Media+DMSO_8_A-F	86.119	1.461298679	24	No wire	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	8	
+24-8.2	2024-02-14_24hr_NoWire+Media+DMSO_8_F-A	104.336	1.770411395	24	No wire	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	8	
+24-9.1	2024-02-14_24hr_Wire+10%inoc_9_A-F	56175.332	953.2035723	24	Wire included	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	9	0.9405
+24-9.2	2024-02-14_24hr_Wire+10%inoc_9_F-A	20377.246	345.7685605	24	Wire included	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	9	0.9405
+24-10.1	2024-02-14_24hr_Wire+10%inoc_10_A-F	35566.932	603.5127062	24	Wire included	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	10	0.9405
+24-10.2	2024-02-14_24hr_Wire+10%inoc_10_F-A	24599.134	417.4070997	24	Wire included	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	10	0.9405
+24-11.1	2024-02-14_24hr_NoWire+10%inoc_11_A-F	141.463	2.400395906	24	No wire	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	11	
+24-11.2	2024-02-14_24hr_NoWire+10%inoc_11_F-A	80.156	1.360116315	24	No wire	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	11	
+24-12.1	2024-02-14_24hr_NoWire+10%inoc_12_A-F	82.841	1.405676376	24	No wire	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	12	
+24-12.2	2024-02-14_24hr_NoWire+10%inoc_12_F-A	116.811	1.982091757	24	No wire	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	12	
+24-13.1	2024-02-14_24hr_Wire+10%inoc+DMSO_13_A-F	13710.255	232.6406196	24	Wire included	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	13	
+24-13.2	2024-02-14_24hr_Wire+10%inoc+DMSO_13_F-A	13943.868	236.6046504	24	Wire included	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	13	
+24-14.1	2024-02-14_24hr_Wire+10%inoc+DMSO_14_A-F	7408.931	125.7174501	24	Wire included	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	14	
+24-14.2	2024-02-14_24hr_Wire+10%inoc+DMSO_14_F-A	7346.971	124.6660901	24	Wire included	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	14	
+24-15.1	2024-02-14_24hr_NoWire+10%inoc+DMSO_15_A-F	95.244	1.616135015	24	No wire	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	15	
+24-15.2	2024-02-14_24hr_NoWire+10%inoc+DMSO_15_F-A	94.981	1.611672335	24	No wire	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	15	
+24-16.1	2024-02-14_24hr_NoWire+10%inoc+DMSO_16_A-F	86.518	1.468069057	24	No wire	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	16	
+24-16.2	2024-02-14_24hr_NoWire+10%inoc+DMSO_16_F-A	105.591	1.791706694	24	No wire	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	16	
+72-1.1	2024-02-16_72hr_Wire+Media_1_A-F	13841.352	234.8651214	72	Wire included	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	1	0.9901
+72-1.2	2024-02-16_72hr_Wire+Media_1_F-A	6229.217	105.6996316	72	Wire included	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	1	0.9901
+72-2.1	2024-02-16_72hr_Wire+Media_2_A-F	5717.977	97.02472435	72	Wire included	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	2	0.9901
+72-2.2	2024-02-16_72hr_Wire+Media_2_F-A	7044.151	119.5277297	72	Wire included	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	2	0.9901
+72-3.1	2024-02-16_72hr_NoWire+Media_3_A-F	90.132	1.52939273	72	No wire	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	3	
+72-3.2	2024-02-16_72hr_NoWire+Media_3_F-A	128.537	2.181062812	72	No wire	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	3	
+72-4.1	2024-02-16_72hr_NoWire+Media_4_A-F	94.001	1.595043337	72	No wire	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	4	
+72-4.2	2024-02-16_72hr_NoWire+Media_4_F-A	132.068	2.240978111	72	No wire	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	4	
+72-5.1	2024-02-16_72hr_Wire+Media+DMSO_5_A-F	5563.407	94.40192408	72	Wire included	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	5	
+72-5.2	2024-02-16_72hr_Wire+Media+DMSO_5_F-A	2130.64	36.15347853	72	Wire included	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	5	
+72-6.1	2024-02-16_72hr_Wire+Media+DMSO_6_A-F	7691.113	130.5056174	72	Wire included	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	6	
+72-6.2	2024-02-16_72hr_Wire+Media+DMSO_6_F-A	1652.662	28.04297306	72	Wire included	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	6	
+72-7.1	2024-02-16_72hr_NoWire+Media+DMSO_7_A-F	100.564	1.70640672	72	No wire	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	7	
+72-7.2	2024-02-16_72hr_NoWire+Media+DMSO_7_F-A	106.614	1.809065332	72	No wire	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	7	
+72-8.1	2024-02-16_72hr_NoWire+Media+DMSO_8_A-F	104.301	1.769817503	72	No wire	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	8	
+72-8.2	2024-02-16_72hr_NoWire+Media+DMSO_8_F-A	116.627	1.978969577	72	No wire	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	8	
+72-9.1	2024-02-16_72hr_Wire+10%inoc_9_A-F	71548.862	1214.06725	72	Wire included	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	9	0.9405
+72-9.2	2024-02-16_72hr_Wire+10%inoc_9_F-A	52704.541	894.3099216	72	Wire included	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	9	0.9405
+72-10.1	2024-02-16_72hr_Wire+10%inoc_10_A-F	51910.952	880.8440133	72	Wire included	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	10	0.9405
+72-10.2	2024-02-16_72hr_Wire+10%inoc_10_F-A	49983.342	848.135622	72	Wire included	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	10	0.9405
+72-11.1	2024-02-16_72hr_NoWire+10%inoc_11_A-F	123.966	2.103500413	72	No wire	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	11	
+72-11.2	2024-02-16_72hr_NoWire+10%inoc_11_F-A	112.395	1.907159454	72	No wire	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	11	
+72-12.1	2024-02-16_72hr_NoWire+10%inoc_12_A-F	110.662	1.877753276	72	No wire	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	12	
+72-12.2	2024-02-16_72hr_NoWire+10%inoc_12_F-A	101.44	1.721271009	72	No wire	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	12	
+72-13.1	2024-02-16_72hr_Wire+10%inoc+DMSO_13_A-F	21402.238	363.1609995	72	Wire included	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	13	
+72-13.2	2024-02-16_72hr_Wire+10%inoc+DMSO_13_F-A	10286.791	174.5500308	72	Wire included	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	13	
+72-14.1	2024-02-16_72hr_Wire+10%inoc+DMSO_14_A-F	10236.224	173.6919914	72	Wire included	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	14	
+72-14.2	2024-02-16_72hr_Wire+10%inoc+DMSO_14_F-A	5601.142	95.04222535	72	Wire included	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	14	
+72-15.1	2024-02-16_72hr_NoWire+10%inoc+DMSO_15_A-F	104.341	1.770496237	72	No wire	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	15	
+72-15.2	2024-02-16_72hr_NoWire+10%inoc+DMSO_15_F-A	108.645	1.843528083	72	No wire	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	15	
+72-16.1	2024-02-16_72hr_NoWire+10%inoc+DMSO_16_A-F	102.431	1.738086659	72	No wire	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	16	
+72-16.2	2024-02-16_72hr_NoWire+10%inoc+DMSO_16_F-A	104.29	1.769630851	72	No wire	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	16	
+168-1.1	2024-02-20_168hr_Wire+Media_1_A-F	49107.95	833.2816505	168	Wire included	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	1	0.9901
+168-1.2	2024-02-20_168hr_Wire+Media_1_F-A	4034.93	68.4661675	168	Wire included	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	1	0.9901
+168-2.1	2024-02-20_168hr_Wire+Media_2_A-F	14019.409	237.8864577	168	Wire included	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	2	0.9901
+168-2.2	2024-02-20_168hr_Wire+Media_2_F-A	10521.689	178.5358659	168	Wire included	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	2	0.9901
+168-3.1	2024-02-20_168hr_NoWire+Media_3_A-F	128.554	2.181351274	168	No wire	Sterile medium	No DMSO	Nothing added	1	"Acidified, filtered"	3	
+168-3.2	2024-02-20_168hr_NoWire+Media_3_F-A	131.991	2.239671547	168	No wire	Sterile medium	No DMSO	Nothing added	1	"Filtered, acidified"	3	
+168-4.1	2024-02-20_168hr_NoWire+Media_4_A-F	127.225	2.158800316	168	No wire	Sterile medium	No DMSO	Nothing added	2	"Acidified, filtered"	4	
+168-4.2	2024-02-20_168hr_NoWire+Media_4_F-A	127.335	2.160666836	168	No wire	Sterile medium	No DMSO	Nothing added	2	"Filtered, acidified"	4	
+168-5.1	2024-02-20_168hr_Wire+Media+DMSO_5_A-F	15377.016	260.9228297	168	Wire included	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	5	
+168-5.2	2024-02-20_168hr_Wire+Media+DMSO_5_F-A	3479.174	59.03589649	168	Wire included	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	5	
+168-6.1	2024-02-20_168hr_Wire+Media+DMSO_6_A-F	9436.171	160.1163996	168	Wire included	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	6	
+168-6.2	2024-02-20_168hr_Wire+Media+DMSO_6_F-A	3576.27	60.68345692	168	Wire included	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	6	
+168-7.1	2024-02-20_168hr_NoWire+Media+DMSO_7_A-F	145.607	2.470712813	168	No wire	Sterile medium	DMSO	Nothing added	1	"Acidified, filtered"	7	
+168-7.2	2024-02-20_168hr_NoWire+Media+DMSO_7_F-A	159.487	2.706233728	168	No wire	Sterile medium	DMSO	Nothing added	1	"Filtered, acidified"	7	
+168-8.1	2024-02-20_168hr_NoWire+Media+DMSO_8_A-F	133.155	2.259422724	168	No wire	Sterile medium	DMSO	Nothing added	2	"Acidified, filtered"	8	
+168-8.2	2024-02-20_168hr_NoWire+Media+DMSO_8_F-A	131.976	2.239417021	168	No wire	Sterile medium	DMSO	Nothing added	2	"Filtered, acidified"	8	
+168-9.1	2024-02-20_168hr_Wire+10%inoc_9_A-F	105111.437	1783.569294	168	Wire included	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	9	0.9405
+168-9.2	2024-02-20_168hr_Wire+10%inoc_9_F-A	33736.651	572.455829	168	Wire included	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	9	0.9405
+168-10.1	2024-02-20_168hr_Wire+10%inoc_10_A-F	103234.569	1751.721912	168	Wire included	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	10	0.9405
+168-10.2	2024-02-20_168hr_Wire+10%inoc_10_F-A	32308.033	548.2145165	168	Wire included	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	10	0.9405
+168-11.1	2024-02-20_168hr_NoWire+10%inoc_11_A-F	149.337	2.534004817	168	No wire	Wild type	No DMSO	Nothing added	1	"Acidified, filtered"	11	
+168-11.2	2024-02-20_168hr_NoWire+10%inoc_11_F-A	156.633	2.657806012	168	No wire	Wild type	No DMSO	Nothing added	1	"Filtered, acidified"	11	
+168-12.1	2024-02-20_168hr_NoWire+10%inoc_12_A-F	136.149	2.310226011	168	No wire	Wild type	No DMSO	Nothing added	2	"Acidified, filtered"	12	
+168-12.2	2024-02-20_168hr_NoWire+10%inoc_12_F-A	148.5	2.519802295	168	No wire	Wild type	No DMSO	Nothing added	2	"Filtered, acidified"	12	
+168-13.1	2024-02-20_168hr_Wire+10%inoc+DMSO_13_A-F	20629.136	350.0427221	168	Wire included	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	13	
+168-13.2	2024-02-20_168hr_Wire+10%inoc+DMSO_13_F-A	11068.341	187.8116569	168	Wire included	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	13	
+168-14.1	2024-02-20_168hr_Wire+10%inoc+DMSO_14_A-F	16927.522	287.2323824	168	Wire included	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	14	
+168-14.2	2024-02-20_168hr_Wire+10%inoc+DMSO_14_F-A	8594.138	145.8284758	168	Wire included	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	14	
+168-15.1	2024-02-20_168hr_NoWire+10%inoc+DMSO_15_A-F	116.993	1.985179999	168	No wire	Wild type	DMSO	Nothing added	1	"Acidified, filtered"	15	
+168-15.2	2024-02-20_168hr_NoWire+10%inoc+DMSO_15_F-A	125.529	2.130021968	168	No wire	Wild type	DMSO	Nothing added	1	"Filtered, acidified"	15	
+168-16.1	2024-02-20_168hr_NoWire+10%inoc+DMSO_16_A-F	170.015	2.884876681	168	No wire	Wild type	DMSO	Nothing added	2	"Acidified, filtered"	16	
+168-16.2	2024-02-20_168hr_NoWire+10%inoc+DMSO_16_F-A	125.19	2.124269692	168	No wire	Wild type	DMSO	Nothing added	2	"Filtered, acidified"	16	
+0-1.1	2024-05-14_0hr_Wire+Media_1_A-F	196.205	3.329278177	0	Wire included	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	17	0.9901
+0-1.2	2024-05-14_0hr_Wire+Media_1_F-A	196.39	3.332417324	0	Wire included	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	17	0.9901
+0-2.1	2024-05-14_0hr_NoWire+Media_2_A-F	99.22	1.683601237	0	No wire	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	18	
+0-2.2	2024-05-14_0hr_NoWire+Media_2_F-A	102.305	1.735948645	0	No wire	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	18	
+0-3.1	2024-05-14_0hr_Wire+Media+DMSO_3_A-F	124.235	2.108064903	0	Wire included	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	19	
+0-3.2	2024-05-14_0hr_Wire+Media+DMSO_3_F-A	127.95	2.171102381	0	Wire included	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	19	
+0-4.1	2024-05-14_0hr_NoWire+Media+DMSO_4_A-F	88.76	1.506112133	0	No wire	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	20	
+0-4.2	2024-05-14_0hr_NoWire+Media+DMSO_4_F-A	90.235	1.531140472	0	No wire	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	20	
+0-5.1	2024-05-14_0hr_Wire+10%inoc_5_A-F	112.83	1.914540693	0	Wire included	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	21	0.9405
+0-5.2	2024-05-14_0hr_Wire+10%inoc_5_F-A	123.785	2.100429138	0	Wire included	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	21	0.9405
+0-6.1	2024-05-14_0hr_NoWire+10%inoc_6_A-F	100.67	1.708205367	0	No wire	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	22	
+0-6.2	2024-05-14_0hr_NoWire+10%inoc_6_F-A	96.26	1.633374875	0	No wire	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	22	
+0-7.1	2024-05-14_0hr_Wire+10%inoc+DMSO_7_A-F	121.96	2.069461871	0	Wire included	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	23	
+0-7.2	2024-05-14_0hr_Wire+10%inoc+DMSO_7_F-A	101.19	1.717028917	0	Wire included	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	23	
+0-8.1	2024-05-14_0hr_NoWire+10%inoc+DMSO_8_A-F	86.375	1.465642581	0	No wire	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	24	
+0-8.2	2024-05-14_0hr_NoWire+10%inoc+DMSO_8_F-A	89.41	1.51714157	0	No wire	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	24	
+24-1.1	2024-05-15_24hr_Wire+Media_1_A-F	6253.61	106.1135409	24	Wire included	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	17	0.9901
+24-1.2	2024-05-15_24hr_Wire+Media_1_F-A	6921.025	117.4384827	24	Wire included	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	17	0.9901
+24-2.1	2024-05-15_24hr_NoWire+Media_2_A-F	97.47	1.653906597	24	No wire	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	18	
+24-2.2	2024-05-15_24hr_NoWire+Media_2_F-A	100.745	1.709477995	24	No wire	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	18	
+24-3.1	2024-05-15_24hr_Wire+Media+DMSO_3_A-F	2404.64	40.80281071	24	Wire included	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	19	
+24-3.2	2024-05-15_24hr_Wire+Media+DMSO_3_F-A	1509.185	25.60840287	24	Wire included	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	19	
+24-4.1	2024-05-15_24hr_NoWire+Media+DMSO_4_A-F	92.46	1.568895085	24	No wire	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	20	
+24-4.2	2024-05-15_24hr_NoWire+Media+DMSO_4_F-A	90.815	1.540982124	24	No wire	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	20	
+24-5.1	2024-05-15_24hr_Wire+10%inoc_5_A-F	47514.82	806.2488382	24	Wire included	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	21	0.9405
+24-5.2	2024-05-15_24hr_Wire+10%inoc_5_F-A	46804.52	794.1962081	24	Wire included	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	21	0.9405
+24-6.1	2024-05-15_24hr_NoWire+10%inoc_6_A-F	102.6	1.740954313	24	No wire	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	22	
+24-6.2	2024-05-15_24hr_NoWire+10%inoc_6_F-A	108.94	1.848533751	24	No wire	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	22	
+24-7.1	2024-05-15_24hr_Wire+10%inoc+DMSO_7_A-F	18014.495	305.6765376	24	Wire included	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	23	
+24-7.2	2024-05-15_24hr_Wire+10%inoc+DMSO_7_F-A	17901.594	303.7607922	24	Wire included	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	23	
+24-8.1	2024-05-15_24hr_NoWire+10%inoc+DMSO_8_A-F	92.56	1.570591922	24	No wire	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	24	
+24-8.2	2024-05-15_24hr_NoWire+10%inoc+DMSO_8_F-A	86.955	1.475484233	24	No wire	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	24	
+72-1.1	2024-05-17_72hr_Wire+Media_1_A-F	9353.13	158.7073295	72	Wire included	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	17	0.9901
+72-1.2	2024-05-17_72hr_Wire+Media_1_F-A	4608.37	78.19650708	72	Wire included	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	17	0.9901
+72-2.1	2024-05-17_72hr_NoWire+Media_2_A-F	108.395	1.839285992	72	No wire	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	18	
+72-2.2	2024-05-17_72hr_NoWire+Media_2_F-A	100.775	1.709987046	72	No wire	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	18	
+72-3.1	2024-05-17_72hr_Wire+Media+DMSO_3_A-F	3122.335	52.98092187	72	Wire included	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	19	
+72-3.2	2024-05-17_72hr_Wire+Media+DMSO_3_F-A	1685.7	28.60357393	72	Wire included	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	19	
+72-4.1	2024-05-17_72hr_NoWire+Media+DMSO_4_A-F	98.005	1.662984673	72	No wire	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	20	
+72-4.2	2024-05-17_72hr_NoWire+Media+DMSO_4_F-A	99.685	1.691491527	72	No wire	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	20	
+72-5.1	2024-05-17_72hr_Wire+10%inoc_5_A-F	58596.96	994.2946416	72	Wire included	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	21	0.9405
+72-5.2	2024-05-17_72hr_Wire+10%inoc_5_F-A	60016.045	1018.374195	72	Wire included	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	21	0.9405
+72-6.1	2024-05-17_72hr_NoWire+10%inoc_6_A-F	104.61	1.775060728	72	No wire	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	22	
+72-6.2	2024-05-17_72hr_NoWire+10%inoc_6_F-A	113.54	1.926588233	72	No wire	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	22	
+72-7.1	2024-05-17_72hr_Wire+10%inoc+DMSO_7_A-F	27654.655	469.2542972	72	Wire included	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	23	
+72-7.2	2024-05-17_72hr_Wire+10%inoc+DMSO_7_F-A	24973.19	423.7542187	72	Wire included	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	23	
+72-8.1	2024-05-17_72hr_NoWire+10%inoc+DMSO_8_A-F	91.445	1.551672194	72	No wire	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	24	
+72-8.2	2024-05-17_72hr_NoWire+10%inoc+DMSO_8_F-A	96.96	1.645252731	72	No wire	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	24	
+168-1.1	2024-05-21_168hr_Wire+Media_1_A-F	16500.41	279.9849898	168	Wire included	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	17	0.9901
+168-1.2	2024-05-21_168hr_Wire+Media_1_F-A	3876.97	65.78584446	168	Wire included	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	17	0.9901
+168-2.1	2024-05-21_168hr_NoWire+Media_2_A-F	112.39	1.907074612	168	No wire	Sterile medium	No DMSO	Nothing added	3	"Acidified, filtered"	18	
+168-2.2	2024-05-21_168hr_NoWire+Media_2_F-A	114.56	1.943895966	168	No wire	Sterile medium	No DMSO	Nothing added	3	"Filtered, acidified"	18	
+168-3.1	2024-05-21_168hr_Wire+Media+DMSO_3_A-F	3668.335	62.2456495	168	Wire included	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	19	
+168-3.2	2024-05-21_168hr_Wire+Media+DMSO_3_F-A	1755.61	29.78983237	168	Wire included	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	19	
+168-4.1	2024-05-21_168hr_NoWire+Media+DMSO_4_A-F	100.155	1.699466659	168	No wire	Sterile medium	DMSO	Nothing added	3	"Acidified, filtered"	20	
+168-4.2	2024-05-21_168hr_NoWire+Media+DMSO_4_F-A	101.455	1.721525534	168	No wire	Sterile medium	DMSO	Nothing added	3	"Filtered, acidified"	20	
+168-5.1	2024-05-21_168hr_Wire+10%inoc_5_A-F	68376.38	1160.235416	168	Wire included	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	21	0.9405
+168-5.2	2024-05-21_168hr_Wire+10%inoc_5_F-A	63836.1	1083.194285	168	Wire included	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	21	0.9405
+168-6.1	2024-05-21_168hr_NoWire+10%inoc_6_A-F	123.375	2.093472109	168	No wire	Wild type	No DMSO	Nothing added	3	"Acidified, filtered"	22	
+168-6.2	2024-05-21_168hr_NoWire+10%inoc_6_F-A	102.52	1.739596844	168	No wire	Wild type	No DMSO	Nothing added	3	"Filtered, acidified"	22	
+168-7.1	2024-05-21_168hr_Wire+10%inoc+DMSO_7_A-F	27738.63	470.6792157	168	Wire included	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	23	
+168-7.2	2024-05-21_168hr_Wire+10%inoc+DMSO_7_F-A	18805.645	319.1010601	168	Wire included	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	23	
+168-8.1	2024-05-21_168hr_NoWire+10%inoc+DMSO_8_A-F	111	1.883488584	168	No wire	Wild type	DMSO	Nothing added	3	"Acidified, filtered"	24	
+168-8.2	2024-05-21_168hr_NoWire+10%inoc+DMSO_8_F-A	92.235	1.565077203	168	No wire	Wild type	DMSO	Nothing added	3	"Filtered, acidified"	24	
+0-1.3-B	2024-05-28_0hr_Wire+Media_1_A-F	143.836	2.440661838	0	Wire included	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	25	0.9901
+0-1.4-B	2024-05-28_0hr_Wire+Media_1_F-A	149.871	2.543065924	0	Wire included	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	25	0.9901
+0-2.3-B	2024-05-28_0hr_NoWire+Media_2_A-F	98.506	1.671485824	0	No wire	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	26	
+0-2.4-B	2024-05-28_0hr_NoWire+Media_2_F-A	99.131	1.682091052	0	No wire	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	26	
+0-3.3-B	2024-05-28_0hr_Wire+Media+DMSO_3_A-F	118.454	2.009970781	0	Wire included	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	27	
+0-3.4-B	2024-05-28_0hr_Wire+Media+DMSO_3_F-A	118.923	2.017928945	0	Wire included	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	27	
+0-4.3-B	2024-05-28_0hr_NoWire+Media+DMSO_4_A-F	90.772	1.540252484	0	No wire	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	28	
+0-4.4-B	2024-05-28_0hr_NoWire+Media+DMSO_4_F-A	90.497	1.535586184	0	No wire	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	28	
+0-5.3-B	2024-05-28_0hr_Wire+10%inoc_5_A-F	17561.543	297.9906825	0	Wire included	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	29	0.9405
+0-5.4-B	2024-05-28_0hr_Wire+10%inoc_5_F-A	136.619	2.318201143	0	Wire included	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	29	0.9405
+0-6.3-B	2024-05-28_0hr_NoWire+10%inoc_6_A-F	98.028	1.663374945	0	No wire	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	30	
+0-6.4-B	2024-05-28_0hr_NoWire+10%inoc_6_F-A	95.485	1.620224391	0	No wire	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	30	
+0-7.3-B	2024-05-28_0hr_Wire+10%inoc+DMSO_7_A-F	112.462	1.908296335	0	Wire included	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	31	
+0-7.4-B	2024-05-28_0hr_Wire+10%inoc+DMSO_7_F-A	108.267	1.837114041	0	Wire included	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	31	
+0-8.3-B	2024-05-28_0hr_NoWire+10%inoc+DMSO_8_A-F	90.787	1.54050701	0	No wire	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	32	
+0-8.4-B	2024-05-28_0hr_NoWire+10%inoc+DMSO_8_F-A	86.998	1.476213872	0	No wire	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	32	
+24-1.3-B	2024-05-29_24hr_Wire+Media_1_A-F	8577.369	145.5439333	24	Wire included	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	25	0.9901
+24-1.4-B	2024-05-29_24hr_Wire+Media_1_F-A	7716.661	130.9391252	24	Wire included	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	25	0.9901
+24-2.3-B	2024-05-29_24hr_NoWire+Media_2_A-F	98.593	1.672962072	24	No wire	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	26	
+24-2.4-B	2024-05-29_24hr_NoWire+Media_2_F-A	97.399	1.652701843	24	No wire	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	26	
+24-3.3-B	2024-05-29_24hr_Wire+Media+DMSO_3_A-F	3842.28	65.19721186	24	Wire included	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	27	
+24-3.4-B	2024-05-29_24hr_Wire+Media+DMSO_3_F-A	1587.392	26.93544784	24	Wire included	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	27	
+24-4.3-B	2024-05-29_24hr_NoWire+Media+DMSO_4_A-F	91.278	1.548838477	24	No wire	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	28	
+24-4.4-B	2024-05-29_24hr_NoWire+Media+DMSO_4_F-A	92.67	1.572458442	24	No wire	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	28	
+24-5.3-B	2024-05-29_24hr_Wire+10%inoc_5_A-F	137.831	2.338766802	24	Wire included	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	29	0.9405
+24-5.4-B	2024-05-29_24hr_Wire+10%inoc_5_F-A	16764.906	284.4730546	24	Wire included	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	29	0.9405
+24-6.3-B	2024-05-29_24hr_NoWire+10%inoc_6_A-F	95.51	1.620648601	24	No wire	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	30	
+24-6.4-B	2024-05-29_24hr_NoWire+10%inoc_6_F-A	98.432	1.670230165	24	No wire	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	30	
+24-7.3-B	2024-05-29_24hr_Wire+10%inoc+DMSO_7_A-F	13821.502	234.5282994	24	Wire included	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	31	
+24-7.4-B	2024-05-29_24hr_Wire+10%inoc+DMSO_7_F-A	13490.368	228.9094966	24	Wire included	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	31	
+24-8.3-B	2024-05-29_24hr_NoWire+10%inoc+DMSO_8_A-F	89.889	1.525269417	24	No wire	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	32	
+24-8.4-B	2024-05-29_24hr_NoWire+10%inoc+DMSO_8_F-A	87.545	1.485495568	24	No wire	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	32	
+72-1.3-B	2024-05-31_72hr_Wire+Media_1_A-F	8228.593	139.6257746	72	Wire included	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	25	0.9901
+72-1.4-B	2024-05-31_72hr_Wire+Media_1_F-A	4620.94	78.40979943	72	Wire included	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	25	0.9901
+72-2.3-B	2024-05-31_72hr_NoWire+Media_2_A-F	101.71	1.725852467	72	No wire	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	26	
+72-2.4-B	2024-05-31_72hr_NoWire+Media_2_F-A	101.885	1.728821931	72	No wire	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	26	
+72-3.3-B	2024-05-31_72hr_Wire+Media+DMSO_3_A-F	3778.085	64.10792763	72	Wire included	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	27	
+72-3.4-B	2024-05-31_72hr_Wire+Media+DMSO_3_F-A	1538.497	26.1057796	72	Wire included	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	27	
+72-4.3-B	2024-05-31_72hr_NoWire+Media+DMSO_4_A-F	95.622	1.622549057	72	No wire	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	28	
+72-4.4-B	2024-05-31_72hr_NoWire+Media+DMSO_4_F-A	94.835	1.609194954	72	No wire	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	28	
+72-5.3-B	2024-05-31_72hr_Wire+10%inoc_5_A-F	90929.268	1542.921065	72	Wire included	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	29	0.9405
+72-5.4-B	2024-05-31_72hr_Wire+10%inoc_5_F-A	81969.318	1390.885358	72	Wire included	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	29	0.9405
+72-6.3-B	2024-05-31_72hr_NoWire+10%inoc_6_A-F	103.897	1.762962283	72	No wire	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	30	
+72-6.4-B	2024-05-31_72hr_NoWire+10%inoc_6_F-A	101.202	1.717232538	72	No wire	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	30	
+72-7.3-B	2024-05-31_72hr_Wire+10%inoc+DMSO_7_A-F	23009.335	390.430809	72	Wire included	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	31	
+72-7.4-B	2024-05-31_72hr_Wire+10%inoc+DMSO_7_F-A	21899.409	371.5971788	72	Wire included	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	31	
+72-8.3-B	2024-05-31_72hr_NoWire+10%inoc+DMSO_8_A-F	94.815	1.608855586	72	No wire	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	32	
+72-8.4-B	2024-05-31_72hr_NoWire+10%inoc+DMSO_8_F-A	91.926	1.559833978	72	No wire	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	32	
+168-1.3-B	2024-06-04_168hr_Wire+Media_1_A-F	9657.267	163.8680374	168	Wire included	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	25	0.9901
+168-1.4-B	2024-06-04_168hr_Wire+Media_1_F-A	3969.165	67.35024293	168	Wire included	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	25	0.9901
+168-2.3-B	2024-06-04_168hr_NoWire+Media_2_A-F	108.465	1.840473777	168	No wire	Sterile medium	No DMSO	Nothing added	4	"Acidified, filtered"	26	
+168-2.4-B	2024-06-04_168hr_NoWire+Media_2_F-A	107.201	1.819025763	168	No wire	Sterile medium	No DMSO	Nothing added	4	"Filtered, acidified"	26	
+168-3.3-B	2024-06-04_168hr_Wire+Media+DMSO_3_A-F	5514.793	93.57702395	168	Wire included	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	27	
+168-3.4-B	2024-06-04_168hr_Wire+Media+DMSO_3_F-A	1869.686	31.72551565	168	Wire included	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	27	
+168-4.3-B	2024-06-04_168hr_NoWire+Media+DMSO_4_A-F	96.242	1.633069444	168	No wire	Sterile medium	DMSO	Nothing added	4	"Acidified, filtered"	28	
+168-4.4-B	2024-06-04_168hr_NoWire+Media+DMSO_4_F-A	97.53	1.654924699	168	No wire	Sterile medium	DMSO	Nothing added	4	"Filtered, acidified"	28	
+168-5.3-B	2024-06-04_168hr_Wire+10%inoc_5_A-F	161553.41	2741.297328	168	Wire included	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	29	0.9405
+168-5.4-B	2024-06-04_168hr_Wire+10%inoc_5_F-A	127040.467	2155.669093	168	Wire included	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	29	0.9405
+168-6.3-B	2024-06-04_168hr_NoWire+10%inoc_6_A-F	114.165	1.937193461	168	No wire	Wild type	No DMSO	Nothing added	4	"Acidified, filtered"	30	
+168-6.4-B	2024-06-04_168hr_NoWire+10%inoc_6_F-A	105.64	1.792538144	168	No wire	Wild type	No DMSO	Nothing added	4	"Filtered, acidified"	30	
+168-7.3-B	2024-06-04_168hr_Wire+10%inoc+DMSO_7_A-F	25531.73	433.2317296	168	Wire included	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	31	
+168-7.4-B	2024-06-04_168hr_Wire+10%inoc+DMSO_7_F-A	23683.612	401.8721877	168	Wire included	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	31	
+168-8.3-B	2024-06-04_168hr_NoWire+10%inoc+DMSO_8_A-F	101.686	1.725445227	168	No wire	Wild type	DMSO	Nothing added	4	"Acidified, filtered"	32	
+168-8.4-B	2024-06-04_168hr_NoWire+10%inoc+DMSO_8_F-A	93.655	1.589172282	168	No wire	Wild type	DMSO	Nothing added	4	"Filtered, acidified"	32	
+0-1.1-S	2024-06-25_0hr_Media_1_A-F	98.495	1.671299172	0	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	33	
+0-1.2-S	2024-06-25_0hr_Media_1_A-F	99.921	1.695496061	0	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	34	
+0-2.1-S	2024-06-25_0hr_Wire+Media_2_A-F	149.086	2.529745757	0	Wire included	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	37	0.9901
+0-2.2-S	2024-06-25_0hr_Wire+Media_2_A-F	147.392	2.501001346	0	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	38	0.9901
+0-3.1-S	2024-06-25_0hr_SpentMedia_3_A-F	124.33	2.109676898	0	No wire	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	41	
+0-3.2-S	2024-06-25_0hr_SpentMedia_3_A-F	226.329	3.840433223	0	No wire	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	42	
+0-4.1-S	2024-06-25_0hr_Wire+SpentMedia_4_A-F	172.829	2.932625662	0	Wire included	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	45	0.9599
+0-4.2-S	2024-06-25_0hr_Wire+SpentMedia_4_A-F	159.761	2.71088306	0	Wire included	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	46	0.9599
+24-1.1-S	2024-06-26_24hr_Media_1_A-F	98.381	1.669364778	24	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	33	
+24-1.2-S	2024-06-26_24hr_Media_1_A-F	98.305	1.668075182	24	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	34	
+24-2.1-S	2024-06-26_24hr_Wire+Media_2_A-F	8625.986	146.3688843	24	Wire included	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	37	0.9901
+24-2.2-S	2024-06-26_24hr_Wire+Media_2_A-F	7003.223	118.8332484	24	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	38	0.9901
+24-3.1-S	2024-06-26_24hr_SpentMedia_3_A-F	129.496	2.197335475	24	No wire	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	41	
+24-3.2-S	2024-06-26_24hr_SpentMedia_3_A-F	291.793	4.95125031	24	No wire	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	42	
+24-4.1-S	2024-06-26_24hr_Wire+SpentMedia_4_A-F	24241.465	411.3380413	24	Wire included	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	45	0.9599
+24-4.2-S	2024-06-26_24hr_Wire+SpentMedia_4_A-F	32309.667	548.2422428	24	Wire included	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	46	0.9599
+72-1.1-S	2024-06-28_72hr_Media_1_A-F	101.807	1.727498399	72	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	33	
+72-1.2-S	2024-06-28_72hr_Media_1_A-F	105.18	1.784732696	72	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	34	
+72-2.1-S	2024-06-28_72hr_Wire+Media_2_A-F	7091.945	120.3387157	72	Wire included	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	37	0.9901
+72-2.2-S	2024-06-28_72hr_Wire+Media_2_A-F	6590.297	111.826569	72	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	38	0.9901
+72-3.1-S	2024-06-28_72hr_SpentMedia_3_A-F	131.612	2.233240536	72	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	41	
+72-3.2-S	2024-06-28_72hr_SpentMedia_3_A-F	310.026	5.26063452	72	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	42	
+72-4.1-S	2024-06-28_72hr_Wire+SpentMedia_4_A-F	18913.932	320.9385135	72	Wire included	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	45	0.9599
+72-4.2-S	2024-06-28_72hr_Wire+SpentMedia_4_A-F	28067.249	476.255343	72	Wire included	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	46	0.9599
+168-1.1-S	2024-07-02_168hr_Media_1_A-F	106.139	1.801005359	168	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	33	
+168-1.2-S	2024-07-02_168hr_Media_1_A-F	111.755	1.8962997	168	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	34	
+168-2.1-S	2024-07-02_168hr_Wire+Media_2_A-F	16647.111	282.474266	168	Wire included	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	37	0.9901
+168-2.2-S	2024-07-02_168hr_Wire+Media_2_A-F	7308.645	124.0157606	168	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	38	0.9901
+168-3.1-S	2024-07-02_168hr_SpentMedia_3_A-F	136.682	2.31927015	168	No wire	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	41	
+168-3.2-S	2024-07-02_168hr_SpentMedia_3_A-F	319.142	5.415318141	168	No wire	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	42	
+168-4.1-S	2024-07-02_168hr_Wire+SpentMedia_4_A-F	31117.191	528.007874	168	Wire included	Spent medium	No DMSO	Nothing added	1	"Acidified, filtered"	45	0.9599
+168-4.2-S	2024-07-02_168hr_Wire+SpentMedia_4_A-F	42895.133	727.8603001	168	Wire included	Spent medium	No DMSO	Nothing added	2	"Acidified, filtered"	46	0.9599
+0-1.3-S	2024-07-30_0hr_Media_1_A-F	94.97	1.611485683	0	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	35	
+0-1.4-S	2024-07-30_0hr_Media_1_A-F	97.889	1.661016342	0	No wire	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	36	
+0-2.3-S	2024-07-30_0hr_Wire+Media_2_A-F	135.927	2.306459034	0	Wire included	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	39	0.9901
+0-2.4-S	2024-07-30_0hr_Wire+Media_2_A-F	139.564	2.36817298	0	Wire included	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	40	0.9901
+0-3.3-S	2024-07-30_0hr_SpentMedia_3_A-F	97.377	1.652328539	0	No wire	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	43	
+0-3.4-S	2024-07-30_0hr_SpentMedia_3_A-F	96.786	1.642300235	0	No wire	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	44	
+0-4.3-S	2024-07-30_0hr_Wire+SpentMedia_4_A-F	156.819	2.660962128	0	Wire included	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	47	0.9599
+0-4.4-S	2024-07-30_0hr_Wire+SpentMedia_4_A-F	143.896	2.441679939	0	Wire included	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	48	0.9599
+24-1.3-S	2024-07-31_24hr_Media_1_A-F	95.28	1.616745876	24	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	35	
+24-1.4-S	2024-07-31_24hr_Media_1_A-F	98.769	1.675948504	24	No wire	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	36	
+24-2.3-S	2024-07-31_24hr_Wire+Media_2_A-F	8201.155	139.1601966	24	Wire included	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	39	0.9901
+24-2.4-S	2024-07-31_24hr_Wire+Media_2_A-F	8276.058	140.431178	24	Wire included	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	40	0.9901
+24-3.3-S	2024-07-31_24hr_SpentMedia_3_A-F	95.682	1.623567159	24	No wire	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	43	
+24-3.4-S	2024-07-31_24hr_SpentMedia_3_A-F	97.734	1.658386246	24	No wire	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	44	
+24-4.3-S	2024-07-31_24hr_Wire+SpentMedia_4_A-F	35687.537	605.5591759	24	Wire included	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	47	0.9599
+24-4.4-S	2024-07-31_24hr_Wire+SpentMedia_4_A-F	36101.519	612.5837739	24	Wire included	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	48	0.9599
+72-1.3-S	2024-08-02_72hr_Media_1_A-F	97.842	1.660218829	72	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	35	
+72-1.4-S	2024-08-02_72hr_Media_1_A-F	94.297	1.600065973	72	No wire	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	36	
+72-2.3-S	2024-08-02_72hr_Wire+Media_2_A-F	7917.957	134.3547894	72	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	39	0.9901
+72-2.4-S	2024-08-02_72hr_Wire+Media_2_A-F	6970.155	118.2721385	72	Wire included	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	40	0.9901
+72-3.3-S	2024-08-02_72hr_SpentMedia_3_A-F	97.848	1.660320639	72	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	43	
+72-3.4-S	2024-08-02_72hr_SpentMedia_3_A-F	100.179	1.6998739	72	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	44	
+72-4.3-S	2024-08-02_72hr_Wire+SpentMedia_4_A-F	22385.585	379.8467909	72	Wire included	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	47	0.9599
+72-4.4-S	2024-08-02_72hr_Wire+SpentMedia_4_A-F	27626.731	468.7804725	72	Wire included	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	48	0.9599
+168-1.3-S	2024-08-06_168hr_Media_1_A-F	100.695	1.708629576	168	No wire	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	35	
+168-1.4-S	2024-08-06_168hr_Media_1_A-F	100.369	1.703097889	168	No wire	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	36	
+168-2.3-S	2024-08-06_168hr_Wire+Media_2_A-F	14769.023	250.6061821	168	Wire included	Sterile medium	No DMSO	Nothing added	7	"Acidified, filtered"	39	0.9901
+168-2.4-S	2024-08-06_168hr_Wire+Media_2_A-F	10112.085	171.5855555	168	Wire included	Sterile medium	No DMSO	Nothing added	8	"Acidified, filtered"	40	0.9901
+168-3.3-S	2024-08-06_168hr_SpentMedia_3_A-F	99.158	1.682549198	168	No wire	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	43	
+168-3.4-S	2024-08-06_168hr_SpentMedia_3_A-F	105.689	1.793369594	168	No wire	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	44	
+168-4.3-S	2024-08-06_168hr_Wire+SpentMedia_4_A-F	24966.802	423.6458247	168	Wire included	Spent medium	No DMSO	Nothing added	3	"Acidified, filtered"	47	0.9599
+168-4.4-S	2024-08-06_168hr_Wire+SpentMedia_4_A-F	33107.13	561.7738865	168	Wire included	Spent medium	No DMSO	Nothing added	4	"Acidified, filtered"	48	0.9599
+0-1.5-B	2025-01-14_0hr_Wire+Media_1_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	Nothing added	9	"Acidified, filtered"	55	0.9901
+0-1.6-B	2025-01-14_0hr_Wire+Media_1_A-F	160	2.714938499	0	Wire included	Sterile medium	No DMSO	Nothing added	10	"Acidified, filtered"	56	0.9901
+0-2.5-B	2025-01-14_0hr_NoWire+Media_2_A-F	100	1.696836562	0	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	57	
+0-2.6-B	2025-01-14_0hr_NoWire+Media_2_A-F	100	1.696836562	0	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	58	
+0-5.5-B	2025-01-14_0hr_Wire+10%inoc_5_A-F	140	2.375571187	0	Wire included	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	59	0.9405
+0-5.6-B	2025-01-14_0hr_Wire+10%inoc_5_A-F	180	3.054305812	0	Wire included	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	60	0.9405
+0-6.5-B	2025-01-14_0hr_NoWire+10%inoc_6_A-F	100	1.696836562	0	No wire	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	61	
+0-6.6-B	2025-01-14_0hr_NoWire+10%inoc_6_A-F	100	1.696836562	0	No wire	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	62	
+24-1.5-B	2025-01-15_24hr_Wire+Media_1_A-F	11180	189.7063276	24	Wire included	Sterile medium	No DMSO	Nothing added	9	"Acidified, filtered"	55	0.9901
+24-1.6-B	2025-01-15_24hr_Wire+Media_1_A-F	11800	200.2267143	24	Wire included	Sterile medium	No DMSO	Nothing added	10	"Acidified, filtered"	56	0.9901
+24-2.5-B	2025-01-15_24hr_NoWire+Media_2_A-F	120	2.036203875	24	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	57	
+24-2.6-B	2025-01-15_24hr_NoWire+Media_2_A-F	100	1.696836562	24	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	58	
+24-5.5-B	2025-01-15_24hr_Wire+10%inoc_5_A-F	73780	1251.926016	24	Wire included	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	59	0.9405
+24-5.6-B	2025-01-15_24hr_Wire+10%inoc_5_A-F	83320	1413.804224	24	Wire included	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	60	0.9405
+24-6.5-B	2025-01-15_24hr_NoWire+10%inoc_6_A-F	100	1.696836562	24	No wire	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	61	
+24-6.6-B	2025-01-15_24hr_NoWire+10%inoc_6_A-F	100	1.696836562	24	No wire	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	62	
+72-1.5-B	2025-01-17_72hr_Wire+Media_1_A-F	14200	240.9507918	72	Wire included	Sterile medium	No DMSO	Nothing added	9	"Acidified, filtered"	55	0.9901
+72-1.6-B	2025-01-17_72hr_Wire+Media_1_A-F	14000	237.5571187	72	Wire included	Sterile medium	No DMSO	Nothing added	10	"Acidified, filtered"	56	0.9901
+72-2.5-B	2025-01-17_72hr_NoWire+Media_2_A-F	100	1.696836562	72	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	57	
+72-2.6-B	2025-01-17_72hr_NoWire+Media_2_A-F	100	1.696836562	72	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	58	
+72-5.5-B	2025-01-17_72hr_Wire+10%inoc_5_A-F	147820	2508.263806	72	Wire included	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	59	0.9405
+72-5.6-B	2025-01-17_72hr_Wire+10%inoc_5_A-F	175200	2972.857657	72	Wire included	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	60	0.9405
+72-6.5-B	2025-01-17_72hr_NoWire+10%inoc_6_A-F	120	2.036203875	72	No wire	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	61	
+72-6.6-B	2025-01-17_72hr_NoWire+10%inoc_6_A-F	120	2.036203875	72	No wire	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	62	
+168-1.5-B	2025-01-21_168hr_Wire+Media_1_A-F	22120	375.3402475	168	Wire included	Sterile medium	No DMSO	Nothing added	9	"Acidified, filtered"	55	0.9901
+168-1.6-B	2025-01-21_168hr_Wire+Media_1_A-F	15020	254.8648516	168	Wire included	Sterile medium	No DMSO	Nothing added	10	"Acidified, filtered"	56	0.9901
+168-2.5-B	2025-01-21_168hr_NoWire+Media_2_A-F	100	1.696836562	168	No wire	Sterile medium	No DMSO	Nothing added	5	"Acidified, filtered"	57	
+168-2.6-B	2025-01-21_168hr_NoWire+Media_2_A-F	120	2.036203875	168	No wire	Sterile medium	No DMSO	Nothing added	6	"Acidified, filtered"	58	
+168-5.5-B	2025-01-21_168hr_Wire+10%inoc_5_A-F	128280	2176.701942	168	Wire included	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	59	0.9405
+168-5.6-B	2025-01-21_168hr_Wire+10%inoc_5_A-F	149420	2535.413191	168	Wire included	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	60	0.9405
+168-6.5-B	2025-01-21_168hr_NoWire+10%inoc_6_A-F	120	2.036203875	168	No wire	Wild type	No DMSO	Nothing added	5	"Acidified, filtered"	61	
+168-6.6-B	2025-01-21_168hr_NoWire+10%inoc_6_A-F	160	2.714938499	168	No wire	Wild type	No DMSO	Nothing added	6	"Acidified, filtered"	62	
+0-1.1-M	2025-02-11_0hr_Wire+Media+MeOH_1_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	MeOH	1	"Acidified, filtered"	49	0.9992
+0-1.2-M	2025-02-11_0hr_Wire+Media+MeOH_1_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	MeOH	2	"Acidified, filtered"	50	0.9992
+0-1.3-M	2025-02-11_0hr_Wire+Media+MeOH_1_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	MeOH	3	"Acidified, filtered"	51	0.9992
+0-2.1-M	2025-02-11_0hr_Wire+Media+PCA_2_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	PCA	1	"Acidified, filtered"	52	0.9951
+0-2.2-M	2025-02-11_0hr_Wire+Media+PCA_2_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	PCA	2	"Acidified, filtered"	53	0.9951
+0-2.3-M	2025-02-11_0hr_Wire+Media+PCA_2_A-F	120	2.036203875	0	Wire included	Sterile medium	No DMSO	PCA	3	"Acidified, filtered"	54	0.9951
+24-1.1-M	2025-02-12_24hr_Wire+Media+MeOH_1_A-F	6640	112.6699477	24	Wire included	Sterile medium	No DMSO	MeOH	1	"Acidified, filtered"	49	0.9992
+24-1.2-M	2025-02-12_24hr_Wire+Media+MeOH_1_A-F	7940	134.728823	24	Wire included	Sterile medium	No DMSO	MeOH	2	"Acidified, filtered"	50	0.9992
+24-1.3-M	2025-02-12_24hr_Wire+Media+MeOH_1_A-F	6720	114.027417	24	Wire included	Sterile medium	No DMSO	MeOH	3	"Acidified, filtered"	51	0.9992
+24-2.1-M	2025-02-12_24hr_Wire+Media+PCA_2_A-F	6840	116.0636209	24	Wire included	Sterile medium	No DMSO	PCA	1	"Acidified, filtered"	52	0.9951
+24-2.2-M	2025-02-12_24hr_Wire+Media+PCA_2_A-F	6760	114.7061516	24	Wire included	Sterile medium	No DMSO	PCA	2	"Acidified, filtered"	53	0.9951
+24-2.3-M	2025-02-12_24hr_Wire+Media+PCA_2_A-F	6460	109.6156419	24	Wire included	Sterile medium	No DMSO	PCA	3	"Acidified, filtered"	54	0.9951
+72-1.1-M	2025-02-14_72hr_Wire+Media+MeOH_1_A-F	8840	150.0003521	72	Wire included	Sterile medium	No DMSO	MeOH	1	"Acidified, filtered"	49	0.9992
+72-1.2-M	2025-02-14_72hr_Wire+Media+MeOH_1_A-F	9420	159.8420042	72	Wire included	Sterile medium	No DMSO	MeOH	2	"Acidified, filtered"	50	0.9992
+72-1.3-M	2025-02-14_72hr_Wire+Media+MeOH_1_A-F	10680	181.2221448	72	Wire included	Sterile medium	No DMSO	MeOH	3	"Acidified, filtered"	51	0.9992
+72-2.1-M	2025-02-14_72hr_Wire+Media+PCA_2_A-F	8500	144.2311078	72	Wire included	Sterile medium	No DMSO	PCA	1	"Acidified, filtered"	52	0.9951
+72-2.2-M	2025-02-14_72hr_Wire+Media+PCA_2_A-F	9060	153.7333925	72	Wire included	Sterile medium	No DMSO	PCA	2	"Acidified, filtered"	53	0.9951
+72-2.3-M	2025-02-14_72hr_Wire+Media+PCA_2_A-F	8400	142.5342712	72	Wire included	Sterile medium	No DMSO	PCA	3	"Acidified, filtered"	54	0.9951
+168-1.1-M	2025-02-18_168hr_Wire+Media+MeOH_1_A-F	10400	176.4710025	168	Wire included	Sterile medium	No DMSO	MeOH	1	"Acidified, filtered"	49	0.9992
+168-1.2-M	2025-02-18_168hr_Wire+Media+MeOH_1_A-F	13960	236.8783841	168	Wire included	Sterile medium	No DMSO	MeOH	2	"Acidified, filtered"	50	0.9992
+168-1.3-M	2025-02-18_168hr_Wire+Media+MeOH_1_A-F	14880	252.4892804	168	Wire included	Sterile medium	No DMSO	MeOH	3	"Acidified, filtered"	51	0.9992
+168-2.1-M	2025-02-18_168hr_Wire+Media+PCA_2_A-F	10240	173.756064	168	Wire included	Sterile medium	No DMSO	PCA	1	"Acidified, filtered"	52	0.9951
+168-2.2-M	2025-02-18_168hr_Wire+Media+PCA_2_A-F	11160	189.3669603	168	Wire included	Sterile medium	No DMSO	PCA	2	"Acidified, filtered"	53	0.9951
+168-2.3-M	2025-02-18_168hr_Wire+Media+PCA_2_A-F	10760	182.5796141	168	Wire included	Sterile medium	No DMSO	PCA	3	"Acidified, filtered"	54	0.9951
+0-1.1-P	2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F	100	1.696836562	0	Wire included	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	63	1.2545
+0-1.2-P	2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F	100	1.696836562	0	Wire included	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	64	1.2545
+0-1.3-P	2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F	120	2.036203875	0	Wire included	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	65	1.2545
+0-1.4-P	2025-03-18_0hr_Wire+10%inoc∆phz_1_A-F	120	2.036203875	0	Wire included	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	66	1.2545
+0-2.1-P	2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	0	No wire	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	67	
+0-2.2-P	2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	0	No wire	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	68	
+0-2.3-P	2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	0	No wire	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	69	
+0-2.4-P	2025-03-18_0hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	0	No wire	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	70	
+24-1.1-P	2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F	59420	1008.260285	24	Wire included	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	63	1.2545
+24-1.2-P	2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F	73820	1252.60475	24	Wire included	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	64	1.2545
+24-1.3-P	2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F	77680	1318.102641	24	Wire included	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	65	1.2545
+24-1.4-P	2025-03-19_24hr_Wire+10%inoc∆phz_1_A-F	64900	1101.246929	24	Wire included	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	66	1.2545
+24-2.1-P	2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	24	No wire	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	67	
+24-2.2-P	2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F	140	2.375571187	24	No wire	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	68	
+24-2.3-P	2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	24	No wire	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	69	
+24-2.4-P	2025-03-19_24hr_NoWire+10%inoc∆phz_2_A-F	100	1.696836562	24	No wire	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	70	
+72-1.1-P	2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F	147300	2499.440256	72	Wire included	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	63	1.2545
+72-1.2-P	2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F	152740	2591.748165	72	Wire included	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	64	1.2545
+72-1.3-P	2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F	131620	2233.376283	72	Wire included	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	65	1.2545
+72-1.4-P	2025-03-21_72hr_Wire+10%inoc∆phz_1_A-F	129820	2202.833225	72	Wire included	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	66	1.2545
+72-2.1-P	2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	72	No wire	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	67	
+72-2.2-P	2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F	140	2.375571187	72	No wire	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	68	
+72-2.3-P	2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	72	No wire	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	69	
+72-2.4-P	2025-03-21_72hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	72	No wire	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	70	
+168-1.1-P	2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F	177660	3014.599836	168	Wire included	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	63	1.2545
+168-1.2-P	2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F	134180	2276.815299	168	Wire included	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	64	1.2545
+168-1.3-P	2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F	183360	3111.31952	168	Wire included	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	65	1.2545
+168-1.4-P	2025-03-25_168hr_Wire+10%inoc∆phz_1_A-F	138740	2354.191046	168	Wire included	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	66	1.2545
+168-2.1-P	2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	168	No wire	∆phz	No DMSO	Nothing added	1	"Acidified, filtered"	67	
+168-2.2-P	2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	168	No wire	∆phz	No DMSO	Nothing added	2	"Acidified, filtered"	68	
+168-2.3-P	2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	168	No wire	∆phz	No DMSO	Nothing added	3	"Acidified, filtered"	69	
+168-2.4-P	2025-03-25_168hr_NoWire+10%inoc∆phz_2_A-F	120	2.036203875	168	No wire	∆phz	No DMSO	Nothing added	4	"Acidified, filtered"	70	
