@@ -1,0 +1,2 @@
+This is a repository that contains all of the raw data for cobalt analyses via ICP-MS, live plate counts, and phenazine measurements associated with a manuscript investigating microbially-induced corrosion of elemental cobalt by Pseudomonas chlororaphis subsepcies aureofaciens.
+All files serve as inputs for regenerating the figures listed in the headers of the associated R notebook that is also provided in .html format.
