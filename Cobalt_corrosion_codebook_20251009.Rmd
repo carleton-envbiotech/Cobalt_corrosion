@@ -1,0 +1,1406 @@
+---
+title: "Cobalt corrosion Github codebook"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+# Table of contents
+
+1) Additional ICP-MS data, mass balances, and statistical tests conducted
+
+- Figure 1: Cobalt corrosion data for wild type cells, deletion mutants, spent medium, and abiotic controls in sterile medium
+- Table S1 (partial): Mass balance recoveries
+- Figure S1: Contribution of background Co(2+) in medium from "no wire" controls
+- Figure S2: Boxplot of log10 [Co(2+)] at 168 hours across abiotic and biotic treatments
+- Figure 2: Stacked barplots for phenazine measurements via LC-HRMS
+- Figure S3: Boxplot of [Co(2+)] at 168 hours for abiotic metabolite treatments
+
+2) Biosynthetic gene cluster analyses
+
+- Bioinformatics analyses of genome annotations generated with DRAM (used to make Figure S4, Table S2, and Table S3)
+
+3) Cell-associated Co(2+) and toxicity measurements 
+
+- Figure 3: Wild type vs deletion cell growth in corrosion assays as measured by viable plate counts
+- Figure S5: Comparison of [Co(2+)] between acidify-filter and filter-acidify preservation with wild-type live cells
+- Figure S6. Cobalt dose-response curve reporting growth rate of P. chlororaphis subsp. aureofaciens in medium amended with CoCl2
+-	Figure S7: Comparison of [Co(2+)] between acidify-filter and filter-acidify preservation with sterile medium
+
+4) Additional SEM images, wire diameters, and EDX data 
+
+- These are largely image files used in Figure 4, Table S4, FigureS8 to S18, and Table S5 that were not analyzed in R. 
+
+5) Statistical analyses of ICP-MS data and SEM of anoxic and DMSO treatments 
+
+- Figure S19: Boxplot of [Co(2+)] at 168 hours comparing oxic and anoxic treatments 
+-	Figure S21: Boxplot of [Co(2+)] at 168 hours across DMSO biotic treatments
+
+6) Redox reaction comparison between Fe & Co 
+
+- These are theoretical calculations summarized in Table S6 that were not performed in R
+
+7) Genetic manipulations and validation 
+
+- Examples of nanophase code used in genome assembly are included here
+- All other figures and alignment files were performed outside of R through other open source software
+
+8) LC-HRMS QA/QC 
+
+- Example chromatograms, m/z values, and retetion times that provided calibration curves were processed manually rather than in R
+
+Appendix I: Long-read sequence genome validation
+
+- Example bash code used to assemble long read data using Nanophase
+- Example bash code used to anontate genomes with DRAM
+
+# Packages required
+
+Load all of these packages before running any of the chunks of code in the subsections below.
+```{r}
+library(tidyverse)
+library(readxl)
+library(data.table)
+library(plotly)
+library(Cairo)
+library(lmtest)
+library(car)
+library(wesanderson)
+library(ggbreak)
+library(scales)
+library(ggh4x)
+library(ggtext)
+library(drc)
+library(RColorBrewer)
+library(forcats)
+```
+
+# Figure 1: Cobalt corrosion data for wild type cells, deletion mutants, spent medium, and abiotic controls in sterile medium
+
+1. Use the code below to load in source data.
+```{r}
+#Load the data frame from scratch to test
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+```
+
+2. Summarize the mass balance data.
+```{r}
+#Summarize the mass balance data
+Mass_balance_data_summary <- All_cobalt_data_combined_revised %>%
+                             filter(Wire_treatment == "Wire included") %>% #only include wire treatments
+                             group_by(Abiotic_vs_biotic, Wire_treatment, DMSO_treatment, Metabolite_treatment, Sample_preservation, Time) %>%
+                             mutate(Mean_recovery = mean(Recovery),
+                                    Median_recovery = median(Recovery),
+                                    Stdev_recovery = sd(Recovery),
+                                    Min_recovery = min(Recovery),
+                                    Max_recovery = max(Recovery)) %>%
+                             filter(Wire_treatment == "Wire included" & Time == 168 & Replicate == 1) %>%
+                             dplyr::select(c(Abiotic_vs_biotic, DMSO_treatment, Metabolite_treatment, Sample_preservation, Mean_recovery:Max_recovery))
+
+write.table(Mass_balance_data_summary, file = "TableS1_Mass_balance_data_summary_20251009.txt", sep = "\t", 
+            row.names = FALSE, col.names = TRUE) 
+
+Mass_balance_data_summary_count <- All_cobalt_data_combined_revised %>%
+                                   count(Abiotic_vs_biotic, Wire_treatment, DMSO_treatment, Metabolite_treatment, Sample_preservation, Time)
+```
+
+3. Use the graphing script and call the *corrected* cobalt concentration in this case and save it as new dedicated files.
+```{r}
+#Adjust the presentation aesthetics
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+dark2_colors <- brewer.pal(n = 7, name = "Dark2") #make palette with desired levels
+
+#Create custom display orders
+All_cobalt_data_combined_revised$Abiotic_vs_biotic_ordered <- factor(All_cobalt_data_combined_revised$Abiotic_vs_biotic,
+                                                             levels = c("Wild type",
+                                                                        "∆phz",
+                                                                        "∆hcn",
+                                                                        "∆phz∆hcn",
+                                                                        "Spent medium",
+                                                                        "Spent medium from ∆phz",
+                                                                        "Sterile medium"))
+
+All_cobalt_data_combined_revised$Metabolite_treatment_ordered <- factor(All_cobalt_data_combined_revised$Metabolite_treatment,
+                                                                 levels = c("Nothing added",
+                                                                            "PCA",
+                                                                            "MeOH"))
+
+Abiotic_vs_biotic_treatment_scatterplot_recoveries <- All_cobalt_data_combined_revised %>%
+                                           filter(Wire_treatment == "Wire included") %>% #filter to wire only experiments
+                                           filter(DMSO_treatment == "No DMSO") %>% #use this to only focus on experiments that did not receive DMSO
+                                           filter(Sample_preservation == "Acidified, filtered") %>% #216 observations
+                                           filter(!Abiotic_vs_biotic == "Sterile medium, anoxic" & !Abiotic_vs_biotic == "Spent medium from ∆phz, anoxic") %>%
+                                           filter(Metabolite_treatment_ordered == "Nothing added") %>% #remove all of the other metabolite treatments
+
+                                          #plotting script
+            
+                                           ggplot(aes(x=Time, 
+                                                      y = Mean_cobalt_concentration_uM_corrected, 
+                                                      fill = Abiotic_vs_biotic_ordered)) +
+                                                  geom_errorbar(aes(ymin = Mean_cobalt_concentration_uM_corrected - Stdev_cobalt_concentration_uM_corrected,
+                                                                    ymax = Mean_cobalt_concentration_uM_corrected + Stdev_cobalt_concentration_uM_corrected,
+                                                                    colour = Abiotic_vs_biotic_ordered)) +
+                                                  geom_point(shape = 21, color = "black", stroke = 0.8, size = 6) +
+                                                  geom_line(aes(group = Bottle_number, color = Abiotic_vs_biotic_ordered))+
+                                                  scale_x_continuous(breaks = seq(0, 168, by = 24)) +
+                                                  ylim(0, 6500) +
+                                                  facet_grid(~ Cell_presence) +
+                                                  ylab("Co(2+) concentration (µM)\nrecoveries applied") +
+                                                  xlab("Time elapsed (hours)") + 
+                                                  scale_fill_manual(values = dark2_colors,
+                                                                    name = "Abiotic vs biotic", 
+                                                                    labels = c("Wild type", 
+                                                                             expression(italic("∆phz")),
+                                                                             expression(italic("∆hcn")),
+                                                                             expression(italic("∆phz∆hcn")),
+                                                                             "Spent medium",
+                                                                             expression(plain("Spent medium from ") * italic("∆phz")),
+                                                                             "Sterile medium"))+
+  
+                                                     scale_colour_manual(values = dark2_colors,
+                                                                    name = "Abiotic vs biotic", 
+                                                                    labels = c("Wild type", 
+                                                                             expression(italic("∆phz")),
+                                                                             expression(italic("∆hcn")),
+                                                                             expression(italic("∆phz∆hcn")),
+                                                                             "Spent medium",
+                                                                             expression(plain("Spent medium from ") * italic("∆phz")),
+                                                                             "Sterile medium"))+
+                                                  theme +
+                                                  theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                                        axis.title.x = element_text(vjust = -2),
+                                                        axis.title.y = element_text(vjust = 2))
+          
+#Add a layer to angle the text
+Abiotic_vs_biotic_treatment_scatterplot_angled_recoveries <- Abiotic_vs_biotic_treatment_scatterplot_recoveries + theme(axis.text.x = element_text(angle = 45))
+
+#Save in different image formats at 300 dpi
+ggsave("Fig1_Cobalt_ICPMS_data_abiotic_biotic_and_metabolite_treatments_no_DMSO_scatterplot_angled_recoveries_applied_20251009.jpg", 
+       dpi = 300, height=8, width=22, device= jpeg)
+ggsave("Fig1_Cobalt_ICPMS_data_abiotic_biotic_and_metabolite_treatments_no_DMSO_scatterplot_angled_recoveries_applied_20251009tiff", 
+       dpi = 300, height=8, width=22, device= tiff)
+ggsave("Fig1_Cobalt_ICPMS_data_abiotic_biotic_and_metabolite_treatments_no_DMSO_scatterplot_angled_recoveries_applied_20251009.pdf", 
+       dpi = 300, height=8, width=22, device= cairo_pdf)
+```
+# Figure S1: Contribution of background Co(2+) in medium from "no wire" controls
+
+1. Reuse the combined data frame but filter it only to the no wire treatments. Facet the data so each Abiotic_vs_biotic treatment ordered is in its own panel, preserve the colour coding but eliminate the legend, and fix the y-axis to the same range as the main figure.
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+
+#Adjust the presentation aesthetics
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+
+#Create custom display orders
+All_cobalt_data_combined_revised$Abiotic_vs_biotic_ordered <- factor(All_cobalt_data_combined_revised$Abiotic_vs_biotic,
+                                                             levels = c("Wild type",
+                                                                        "∆phz",
+                                                                        "∆hcn",
+                                                                        "∆phz∆hcn",
+                                                                        "Spent medium",
+                                                                        "Spent medium from ∆phz",
+                                                                        "Sterile medium"))
+
+
+All_cobalt_data_combined_revised$Metabolite_treatment_ordered <- factor(All_cobalt_data_combined_revised$Metabolite_treatment,
+                                                                 levels = c("Nothing added",
+                                                                            "PCA",
+                                                                            "MeOH"))
+No_wire_scatterplot <- All_cobalt_data_combined_revised %>%
+                       filter(Wire_treatment == "No wire") %>% #filter to no wire experiments
+                       filter(DMSO_treatment == "No DMSO") %>% #use this to only focus on experiments that did not receive DMSO
+                       filter(Sample_preservation == "Acidified, filtered") %>%
+                       filter(!Abiotic_vs_biotic == "Sterile medium, anoxic" & !Abiotic_vs_biotic == "Spent medium from ∆phz, anoxic") %>%
+                       group_by(Abiotic_vs_biotic, Wire_treatment, DMSO_treatment, Metabolite_treatment, Time) %>%
+                       filter(Metabolite_treatment_ordered == "Nothing added") %>% #remove all of the other metabolite treatments
+                       mutate(Abiotic_vs_biotic_ordered = fct_recode(Abiotic_vs_biotic_ordered, "Spent medium\nfrom ∆phz" = "Spent medium from ∆phz")) %>%
+                      #plotting script
+                      ggplot(aes(x=Time, y = Mean_cobalt_concentration_uM_corrected)) +
+                      geom_errorbar(aes(ymin = Mean_cobalt_concentration_uM_corrected - Stdev_cobalt_concentration_uM_corrected,
+                                        ymax = Mean_cobalt_concentration_uM_corrected + Stdev_cobalt_concentration_uM_corrected)) +
+                      geom_point(shape = 21, color = "black", stroke = 0.8, size = 6) +
+                      geom_line(aes(group = Bottle_number))+
+                      geom_hline(yintercept = 1.68, linetype = "dashed", color = "orange", size = 1) +
+                      scale_x_continuous(breaks = seq(0, 168, by = 24)) +
+                      #ylim(0, 6500) +
+                      facet_grid(~ Abiotic_vs_biotic_ordered, drop = FALSE) +
+                      ylab("Co(2+) concentration (µM)") +
+                      xlab("Time elapsed (hours)") +
+                      theme +
+                      theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                            axis.title.x = element_text(vjust = -2),
+                            axis.title.y = element_text(vjust = 2),
+                            legend.position = "none")
+          
+#Add a layer to angle the text
+No_wire_scatterplot_angled <- No_wire_scatterplot + theme(axis.text.x = element_text(angle = 45))
+
+#Save in different image formats at 300 dpi
+ggsave("FigS1_Cobalt_ICPMS_data_no_wire_treaments_scatterplot_angled_20251009.jpg", dpi = 300, height=8, width=34, device= jpeg)
+ggsave("FigS1_Cobalt_ICPMS_data_no_wire_treaments_scatterplot_angled_20251009.tiff", dpi = 300, height=8, width=34, device= tiff)
+ggsave("FigS1_Cobalt_ICPMS_data_no_wire_treaments_scatterplot_angled_20251009.pdf", dpi = 300, height=8, width=34, device= cairo_pdf)
+```
+**Note** Spent medium from 2024-06-28 and a few others were incorrectly labelled as sterile medium, went and manually corrected in input file. Noticed because 72 hours was blank in the original. Seems like a mislabel that was manual in the original data.
+
+
+# Figure S2: Boxplot of log10 [Co(2+)] at 168 hours across abiotic and biotic treatments
+1. Load in the data from the manually adjusted tab-delimited file that contains recoveries. Generate a new variable where the recovery has been applied.
+```{r}
+All_cobalt_data_combined_revised_recoveries <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+```
+
+2. Run the model applying the same outlier removal and log-transformations used on the data that was not corrected for recovery.
+```{r}
+Abiotic_vs_biotic_wire_only_ANOVA_data_outlier_removed_recoveries <- All_cobalt_data_combined_revised_recoveries %>%
+                                                                     filter(DMSO_treatment == "No DMSO") %>% 
+                                                                     filter(Sample_preservation == "Acidified, filtered") %>% 
+                                                                     filter(Time == 168) %>%
+                                                                     filter(Metabolite_treatment == "Nothing added") %>%
+                                                                     filter(Wire_treatment == "Wire included") %>%
+                                                                     filter(!Abiotic_vs_biotic == "Sterile medium, anoxic" & 
+                                                                            !Abiotic_vs_biotic == "Spent medium from ∆phz, anoxic") #remove anoxic
+
+##Generate model
+Abiotic_vs_biotic_model_log10_outlier_removed_recoveries <- lm(log10(Cobalt_concentration_uM_corrected) ~ Abiotic_vs_biotic, 
+                                                            data = Abiotic_vs_biotic_wire_only_ANOVA_data_outlier_removed_recoveries, 
+                                                            contrasts = list(Abiotic_vs_biotic = contr.sum), type =3)
+
+Abiotic_vs_biotic_model_log10_outlier_removed_recoveries
+par(mfrow = c(2,2))
+plot(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries)
+
+#Run Breusch Pagan test for homoscedasticity
+bptest(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries)
+
+#Run Shapiro-Wilk normality test
+shapiro.test(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries$residuals)
+
+#Run Durbin-Watson test for autocorrelation
+dwtest(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries)
+```
+
+## Figure S2 ANOVA Interpretation
+- Homoscedasticity looks okay as does the normal distribution of residuals.
+- BP test returns a p-value of 0.2887, so we cannot reject the null hypothesis of homoscedasticity.
+- SW test returns a p-value of 0.5932, so we cannot reject the null hypothesis that residuals are normally distributed.
+- DW test returns a p-value of 0.1577, so we cannot reject the null hypothesis that there is no autocorrelation between data points.
+
+**All linear model assumptions are met**
+
+3. Generate the actual output of anova model generated with the data where the outlier removed and a log10 transformation was applied. This is returning a type 2 sum of squares because we are not longer considering the interaction having controlled for wire treatment
+```{r}
+Abiotic_vs_biotic_type_II_ANOVA_results_recoveries <- Anova(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries, type = 3)
+Abiotic_vs_biotic_type_II_ANOVA_results_recoveries
+```
+- F-value = 81.597
+- p-value = 5.051e-16 ***
+
+- There are significant differences in cobalt concentration at 168 hours that are attributable to the different abiotic vs biotic treatments even after correcting for recoveries.
+- The p-values are different for the recovery corrected data, but both version of the data have p < 0.001.
+
+4. Run a Tukey post-hoc test to figure out where the significant differences are.
+```{r}
+#First you need to convert the model to an aov object
+Abiotic_vs_biotic_model_log10_outlier_removed_converted_recoveries <- aov(Abiotic_vs_biotic_model_log10_outlier_removed_recoveries)
+Tukey_comparison_abiotic_vs_biotic_model_log10_outlier_removed_recoveries <- TukeyHSD(Abiotic_vs_biotic_model_log10_outlier_removed_converted_recoveries, conf.level = 0.95)
+Tukey_comparison_abiotic_vs_biotic_model_log10_outlier_removed_recoveries
+Tukey_comparison_abiotic_vs_biotic_data_frame_recoveries <- as.data.frame(Tukey_comparison_abiotic_vs_biotic_model_log10_outlier_removed_recoveries$Abiotic_vs_biotic)
+```
+
+## Figure S2 multiple comparison interpretation
+
+**Significant results**
+                                              diff         lwr          upr     p adj
+
+∆phz∆hcn-∆hcn                          0.576930931  0.30784754  0.846014318 0.0000048
+Spent medium-∆hcn                     -0.370403748 -0.63948714 -0.101320361 0.0027252
+
+Sterile medium-∆hcn                   -0.768244888 -0.99692180 -0.539567981 0.0000000
+
+∆phz∆hcn-∆phz                          0.378550119  0.10946673  0.647633506 0.0021272
+Spent medium-∆phz                     -0.568784560 -0.83786795 -0.299701173 0.0000062
+Spent medium from ∆phz-∆phz           -0.297767620 -0.58841090 -0.007124344 0.0419806
+Sterile medium-∆phz                   -0.966625700 -1.19530261 -0.737948793 0.0000000
+
+Spent medium-∆phz∆hcn                 -0.947334679 -1.21641807 -0.678251292 0.0000000
+Spent medium from ∆phz-∆phz∆hcn       -0.676317740 -0.96696102 -0.385674463 0.0000011
+Sterile medium-∆phz∆hcn               -1.345175819 -1.57385273 -1.116498912 0.0000000
+Wild type-∆phz∆hcn                    -0.388218663 -0.63385706 -0.142580261 0.0005055
+
+Sterile medium-Spent medium           -0.397841140 -0.62651805 -0.169164233 0.0001340
+Wild type-Spent medium                 0.559116016  0.31347761  0.804754418 0.0000017
+Sterile medium-Spent medium from ∆phz -0.668858079 -0.92255233 -0.415163829 0.0000001
+Wild type-Spent medium from ∆phz       0.288099077  0.01901569  0.557182464 0.0299877
+Wild type-Sterile medium               0.956957156  0.75639424  1.157520071 0.0000000
+
+**Non-significant results**
+∆phz-∆hcn                              0.198380811 -0.07070258  0.467464198 0.2601652
+Spent medium from ∆phz-∆hcn           -0.099386809 -0.39003009  0.191256467 0.9263737
+Wild type-∆hcn                         0.188712267 -0.05692613  0.434350669 0.2197960
+Wild type-∆phz                        -0.009668544 -0.25530695  0.235969858 0.9999996
+Spent medium from ∆phz-Spent medium    0.271016939 -0.01962634  0.561660216 0.0796790
+
+5. Generate boxplots that will be used to overlay the Tukey annotations manually.
+```{r}
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", size = 16, angle = 45, hjust = 0.5, vjust = 0.55, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 16, angle = 0, hjust = 0.5, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 18, angle = 0, hjust = 0.5, vjust = -1, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 18, angle = 90, face = "plain"),
+        strip.text.x = element_text(size = 20, colour = "grey20"),
+        strip.text.y = element_text(size = 20, colour = "grey20"),
+        plot.title = element_text(size = 18, face = "bold", hjust = 0.5, vjust = 1),
+        legend.title=element_text(size=18), 
+        legend.text=element_text(size=18),
+        legend.position = "right",
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+#Create custom order to display x-axis
+
+All_cobalt_data_combined_revised_recoveries$Abiotic_vs_biotic_ordered <- factor(All_cobalt_data_combined_revised_recoveries$Abiotic_vs_biotic,
+                                                                 levels = c("Wild type",
+                                                                        "∆phz",
+                                                                        "∆hcn",
+                                                                        "∆phz∆hcn",
+                                                                        "Spent medium",
+                                                                        "Spent medium from ∆phz",
+                                                                        "Sterile medium"))
+
+Abiotic_vs_biotic_wire_only_boxplot_log10_recoveries <- All_cobalt_data_combined_revised_recoveries %>%
+                                                        filter(DMSO_treatment == "No DMSO") %>% 
+                                                        filter(Sample_preservation == "Acidified, filtered") %>% 
+                                                        filter(Time == 168) %>%
+                                                        filter(Metabolite_treatment == "Nothing added") %>%
+                                                        filter(Wire_treatment == "Wire included") %>%
+                                                        filter(!Abiotic_vs_biotic == "Sterile medium, anoxic" & !Abiotic_vs_biotic == "Spent medium from ∆phz, anoxic") %>%
+                                                        mutate(Abiotic_vs_biotic_ordered = fct_recode(Abiotic_vs_biotic_ordered, 
+                                                                                                  "Spent medium\nfrom ∆phz" = "Spent medium from ∆phz")) %>%
+                                                        #Graphing script
+                                                        ggplot(aes(x=Abiotic_vs_biotic_ordered, y=log10(Cobalt_concentration_uM_corrected))) + 
+                                                        geom_boxplot() +
+                                                        geom_jitter(fill = "grey", colour = "black", width = 0.1, pch =21, stroke =1)+
+                                                        ylim(2, 4)+
+                                                        labs(title = "" ,
+                                                             y = "log10[Co(2+) concentration (µM)]\ncorrected for recovery", 
+                                                             x = "Abiotic and biotic treatments") +
+                                                        theme + #this calls the aesthetic theme variable
+                                                        theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                                              axis.title.x = element_text(vjust = -2),
+                                                              axis.title.y = element_text(vjust = 2))
+
+Abiotic_vs_biotic_wire_only_boxplot_log10_recoveries #annotate this manually in an image editor
+ggsave("FigS2_Cobalt_ICPMS_data_biotic_treatments_no_DMSO_boxplot_log10_recoveries_applied_20251009.jpg", dpi = 300, height=9, width=12, device=jpeg)
+ggsave("FigS2_Cobalt_ICPMS_data_biotic_treatments_no_DMSO_boxplot_log10_recoveries_applied_20251009.tiff", dpi = 300, height=9, width=12, device=tiff)
+ggsave("FigS2_Cobalt_ICPMS_data_biotic_treatments_no_DMSO_boxplot_log10_recoveries_applied_20251009.pdf", dpi = 300, height=9, width=12, device=cairo_pdf)
+```
+
+### Letters to add to Figure S2
+
+Add these letters manually in an image editor prior to upload to the supplementary information.
+
+- Wild type = a
+- ∆phz = a
+- ∆hcn = ad
+- ∆phz∆hcn = b
+- Spent medium = c
+- Spent medium from ∆phz = cd
+- Sterile medium = e
+
+# Figure 2: Stacked barplots for phenazine measurements via LC-HRMS
+
+1. Load the formatted LC-HRMS data.
+```{r}
+LC_MS_data_combined_labelled_long <- fread("LC_MS_data_combined_20250419.txt", sep = "\t", header = "auto")
+```
+
+2. Plot the stacked bar graphs using variables with a custom order.
+```{r}
+barplot_theme<-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+                 panel.background = element_blank(), axis.line = element_line(colour = "black"),
+                 axis.text.x = element_text(color = "black", size = 32),
+                 axis.text.y = element_text(color = "black", size = 32),
+                 axis.title.x = element_text(color = "black", size = 34, vjust = -3, face = "bold"),
+                 axis.title.y = element_text(color = "black", size = 34, vjust = 6, face = "bold"),
+                 strip.text.x = element_text(color = "black", size = 32, face = "bold"),
+                 strip.text.y = element_text(color = "black", size = 32, face = "bold"),
+                 legend.title=element_text(size=40, vjust = 2, face = "bold"), 
+                 legend.text=element_text(size=34),
+                 legend.key = element_rect(fill = "white", color = NA),
+                 plot.title = element_text(size = 68, face = "bold", hjust = 0.5),
+                 panel.border = element_rect(colour = "black", fill=NA, size=1),
+                 plot.margin = unit(c(2, 2, 2, 2), "cm"))
+
+LC_MS_data_combined_labelled_long$Abiotic_vs_biotic_ordered <- factor(LC_MS_data_combined_labelled_long$Abiotic_vs_biotic, 
+                                                                      levels = c("Wild type",
+                                                                            "Spent medium",
+                                                                            "∆phz"))
+
+LC_MS_data_combined_labelled_long$Metabolite_ordered <- factor(LC_MS_data_combined_labelled_long$Metabolite, 
+                                                                      levels = c("2-OHPCA",
+                                                                            "PCA",
+                                                                            "2-OHPHZ"))
+
+
+Phenazine_barplot <-   LC_MS_data_combined_labelled_long %>%
+                       group_by(Comment) %>%
+                       mutate(Mean_concentration_ug_mL = mean(Concentration_ug_mL)) %>%
+                       ggplot(aes(x= Time, y = Concentration_ug_mL, fill = Metabolite_ordered)) +
+                       geom_bar(aes(group = Replicate), position="stack", stat="identity") +
+                       facet_nested(Replicate~Wire_treatment + Abiotic_vs_biotic_ordered)+
+                       scale_x_continuous(breaks = seq(0, 168, by = 24)) +
+                       scale_fill_manual(name = "Metabolite", 
+                                         values = c("2-OHPCA" = "#FA1F1E",   # Red
+                                                    "PCA" = "#EBA602",       # Gold
+                                                    "2-OHPHZ" = "#027AB0"    # Blue
+                                                    ))+
+                       #scale_fill_brewer(name = "Metabolite", palette = "YlOrRd")+ 
+                       ylim(0,15) +
+                       theme(axis.text.x=element_text(angle=0, hjust=0.5),
+                       axis.title.y = element_text(color = "black", size = 24, vjust = 0))+
+                       labs(x = "Time elapsed (hours)" , y = "Concentration (µg/mL)") +
+                       barplot_theme + 
+                       theme(legend.key.size = unit(2, 'cm'))
+
+Phenazine_barplot
+
+Phenazine_barplot_angled <- Phenazine_barplot + theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+
+#Save in different image formats
+ggsave("Fig2_phenazine_LCMS_data_stacked_barplot_faceted_20251009.jpg", dpi = 300, height=12, width=40, device=jpeg)
+ggsave("Fig2_phenazine_LCMS_data_stacked_barplot_faceted_20251009.tiff", dpi = 300, height=12, width=40, device=tiff)
+ggsave("Fig2_phenazine_LCMS_data_stacked_barplot_faceted_20251009.pdf", dpi = 300, height=12, width=40, device=cairo_pdf)
+```
+
+# Figure S3: Boxplot of [Co(2+)] at 168 hours for abiotic metabolite treatments
+
+1. Load the data frame from the compiled data and remove the outlier value from the sterile medium treatment that was contaminated.
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+
+#Create custom display orders
+All_cobalt_data_combined_revised$Abiotic_vs_biotic_ordered <- factor(All_cobalt_data_combined_revised$Abiotic_vs_biotic,
+                                                             levels = c("Wild type",
+                                                                        "∆phz",
+                                                                        "∆hcn",
+                                                                        "∆phz∆hcn",
+                                                                        "Spent medium",
+                                                                        "Spent medium from ∆phz",
+                                                                        "Sterile medium"))
+
+All_cobalt_data_combined_revised$Metabolite_treatment_ordered <- factor(All_cobalt_data_combined_revised$Metabolite_treatment,
+                                                                 levels = c("Nothing added",
+                                                                            "PCA",
+                                                                            "MeOH"))
+Abiotic_no_outlier <- All_cobalt_data_combined_revised %>%
+                      filter(DMSO_treatment == "No DMSO") %>% #use this to only focus on experiments that did not receive DMSO
+                      filter(Sample_preservation == "Acidified, filtered") %>% #216 observations
+                      filter(Time == 168 & Wire_treatment == "Wire included") %>% #Only look at no metabolite spikes + 168 hours
+                      filter(Abiotic_vs_biotic_ordered == "Sterile medium")
+```
+
+2. Generate the linear models and verify assumptions for the ANOVA using type III sum of squares.
+```{r}
+##Generate model
+Abiotic_model_outlier_removed <- lm(Cobalt_concentration_uM_corrected ~ Metabolite_treatment, 
+                                    data = Abiotic_no_outlier, 
+                                    contrasts = list(Metabolite_treatment = contr.sum), type =3)
+
+Abiotic_model_outlier_removed
+par(mfrow = c(2,2))
+plot(Abiotic_model_outlier_removed)
+
+#Run Breusch Pagan test for homoscedasticity
+bptest(Abiotic_model_outlier_removed)
+
+#Run Shapiro-Wilk normality test
+shapiro.test(Abiotic_model_outlier_removed$residuals)
+
+#Run Durbin-Watson test for autocorrelation
+dwtest(Abiotic_model_outlier_removed)
+```
+## Figure S3 ANOVA Interpretation
+- Homoscedasticity may be an issue, it looks like samples associated with higher cobalt concentrations ~ 240 µM have higher variance.
+- Normal distribution of residuals looks good.
+- BP test returns a p-value of *0.2725* --> we cannot reject the null hypothesis of homoscedasticity.
+- SW test returns a p-value of *0.4557* --> we cannot reject the null hypothesis of normally distributed residuals.
+- DW test returns a p-value of *0.9226* --> we cannot reject the null hypothesis that there is no autocorrelation between data points.
+
+**All assumptions met, okay to proceed with ANOVA**
+
+3. Run the ANOVA and the Tukey comparison.
+```{r}
+Abiotic_type_III_ANOVA_results <- Anova(Abiotic_model_outlier_removed, type = 3)
+Abiotic_type_III_ANOVA_results
+```
+- Metabolite treatment did not emerge as a significant variable, so there is no significant differences between groups.
+- F-value 0.8128
+- p-value 0.4666
+
+4. Generate the boxplot. There is no need to annotate the boxes later because there are no significant differences.
+```{r}
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", size = 16, angle = 45, hjust = 0.5, vjust = 0.55, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 16, angle = 0, hjust = 0.5, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 18, angle = 0, hjust = 0.5, vjust = -1, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 18, angle = 90, face = "plain"),
+        strip.text.x = element_text(size = 20, colour = "grey20"),
+        strip.text.y = element_text(size = 20, colour = "grey20"),
+        plot.title = element_text(size = 18, face = "bold", hjust = 0.5, vjust = 1),
+        legend.title=element_text(size=18), 
+        legend.text=element_text(size=18),
+        legend.position = "right",
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+Abiotic_outlier_removed_boxplot <- Abiotic_no_outlier %>%
+                                   ggplot(aes(x=Metabolite_treatment_ordered, y=Cobalt_concentration_uM_corrected)) + 
+                                   geom_boxplot() +
+                                   geom_jitter(fill = "grey", colour = "black", width = 0.1, pch =21, stroke =1)+
+                                   ylim(0, 400) +
+                                   labs(title = "" ,
+                                   y = "Co(2+) concentration (µM)\ncorrected for recovery", 
+                                   x = "Metabolic treatments in sterile medium") +
+                                   theme +
+                                   theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                         axis.title.x = element_text(vjust = -2),
+                                         axis.title.y = element_text(vjust = 2))
+Abiotic_outlier_removed_boxplot
+ggsave("FigS3_Cobalt_ICPMS_data_abiotic_treatments_no_DMSO_boxplot_20251009.jpg", dpi = 300, height=6, width=6, device=jpeg)
+ggsave("FigS3_Cobalt_ICPMS_data_abiotic_treatments_no_DMSO_boxplot_20251009.tiff", dpi = 300, height=6, width=6, device=tiff)
+ggsave("FigS3_Cobalt_ICPMS_data_abiotic_treatments_no_DMSO_boxplot_20251009.pdf", dpi = 300, height=6, width=6, device=cairo_pdf)
+```
+#  Biosynthetic gene cluster analyses
+
+These analyses underpin *Figure S4,* *Table S2*, and *Table S3*, which were extracted from the notes in this R notebook.
+
+## Run DRAM for annotations and distillation
+
+1. Activate the conda environment containing DRAM and run the annotate command. Replace the directory and fasta file with the genome file for Pseudomonas chlororaphis subspecies aurefoaciens (or any genome or genoems of your choice)
+```{bash}
+DRAM.py annotate -i 'Pseudomonas_genome_analyses/*.fasta' --use_uniref -o Pseudomonas_annotation_with_uniref --threads 8
+```
+
+2. Once the annotation is complete, use the distillation command. Make sure to use the same output directory from the annotate step.
+```{bash}
+DRAM.py distill -i Pseudomonas_annotation_with_uniref/annotations.tsv -o Pseudomonas_genome_summaries --trna_path Pseudomonas_annotation_with_uniref/trnas.tsv --rrna_path Pseudomonas_annotation_with_uniref/rrnas.tsv
+```
+
+## Table S2 raw data: Manually search annotations for genes of interest corresponding to antiSMASH predictions and potential corrosion pathways
+
+These files were used to manually create **Table S2**.
+
+1. Load in the tab-delimited file containing the annotation data. Make sure to convert the MS Excel file to a flat format, i.e., .tsv manually.
+```{r}
+Pseudomonas_chlororaphis_aureofaciens_annotations <- fread("Supporting_Data_1.tsv", sep = "\t", header = "auto")
+```
+
+2. Manually search the annotation file using different strings of test for functions relevant to cobalt and microbially-induced corrosion.
+```{r}
+corrosion_pathways <- Pseudomonas_chlororaphis_aureofaciens_annotations %>%
+                    
+                   #Simple text search for "cobalt"
+                   filter(
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("cobalt", .))) |
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("cob", .))) |
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("cyanide", .)))|
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("hcn", .)))|
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("cytochrome", .)))|
+                     #(if_any(c(kegg_hit:pfam_hits), ~ grepl("hydrogenase", .)))| this is non-specific and picks up anything with dehydrogenase, comment out
+                     (if_any(c(kegg_hit:pfam_hits), ~ grepl("siderophore", .)))) %>%
+                    dplyr::select(scaffold,
+                           gene_position,
+                           start_position,
+                           end_position,
+                           ko_id,
+                           kegg_hit,
+                           uniref_id,
+                           uniref_hit)
+
+#Write the table to save the source data
+write.table(corrosion_pathways, file = "SuppData_Pseudomonas_chlororaphis_aureofaciens_putative_corrosion_pathways.tsv", sep = "\t", row.names = FALSE)
+``` 
+
+*key biosynthetic genes* are denoted by asterisks in markdown format.
+
+## Table S3 raw data: Cross-referencing annotations with potential metabolites
+
+### Region 2 (hydrogen cyanide cluster): 2951483 to 2964455
+```{r}
+Region2 <- Pseudomonas_chlororaphis_aureofaciens_annotations %>% filter(start_position >= 2951483 & end_position <=2964455)
+```
+
+Genes in hydrogen cyanide-cluster:
+- *ctg1_2591*: 2956483 - 2956800 --> hydrogen cyanide synthase HcnA [EC:1.4.99.5] (C grade, KEGG ID = K10814)
+- *ctg1_2592*: 2956797 - 2958206 --> hydrogen cyanide synthase HcnB [EC:1.4.99.5] (B grade, KEGG ID = K10815)
+- *ctg1_2593*: 2958199 - 2959455 --> hydrogen cyanide synthase HcnC [EC:1.4.99.5] (B grade, KEGG ID = K10816)
+- ctg1_2594: 2959618 - 2960223 --> glutathione S-transferase [EC:2.5.1.18] (B grade, KEGG ID = K00799)
+
+### Region 6 (NI-siderophore): 3832837 to 3869821
+```{r}
+Region6 <- Pseudomonas_chlororaphis_aureofaciens_annotations %>% filter(start_position >= 3832837 & end_position <=3869821)
+```
+
+Genes in NI-siderophore cluster:
+
+- *ctg1_3372*: 3846837 - 3848735 --> *staphyloferrin* B synthase [EC:6.3.2.56] (B grade KEGG ID = K23375)
+- ctg1_3373: 3848740 - 3849513 --> *staphyloferrin* B biosynthesis citrate synthase (B grade, KEGG ID = K23376)
+- *ctg1_3374*: 3849507 - 3851369 --> 2-[(L-alanin-3-ylcarbamoyl)methyl]-3-(2-aminoethylcarbamoyl)-2-hydroxypropanoate synthase [EC:6.3.2.55] (B grade, KEGG ID = K23374)
+- ctg1_3375: 3851394 - 3852812 --> UniRef90_A0A554P7Y5 DHA2 family efflux MFS transporter permease subunit n=30 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A554P7Y5_9PSED (B grade, no hit in KEGG)
+- ctg1_3376: 3852809 - 3854029 --> diaminopimelate decarboxylase [EC:4.1.1.20] (B grade, KEGG ID = K01586)
+- *ctg1_3377*: 3854022 - 3855821 --> UniRef90_A0A0C5EL69 AcsD protein n=70 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A0C5EL69_9PSED (B grade, no hit in KEGG)
+
+### Region 7 (hydrogen cyanide cluster): 3888854 to 3901701
+```{r}
+Region7 <- Pseudomonas_chlororaphis_aureofaciens_annotations %>% filter(start_position >= 3888854 & end_position <=3901701)
+```
+
+- ctg1_3405: 3890984 - 3892441 --> succinate-semialdehyde dehydrogenase / glutarate-semialdehyde dehydrogenase [EC:1.2.1.16 1.2.1.79 1.2.1.20] (B grade, KEGG ID = K00135)
+- ctg1_3406: 3892700 - 3893857 --> acetylornithine deacetylase [EC:3.5.1.16] (B grade, KEGG ID = K01438)
+- *ctg1_3407*: 3893854 - 3895008 --> UniRef90_A0AA45XIN0 Sarcosine oxidase subunit beta n=5 Tax=Pseudomonas TaxID=286 RepID=A0AA45XIN0_9PSED (no KEGG hit, B grade, UniRef ID = A0AA45XIN0_9PSED)
+  - Catalyzes oxidative demethylation of sarcosine (N-methylglycine) to yield glycine
+- *ctg1_3408*: 3895005 - 3896411 --> UniRef90_A0A3G7K0E2 Opine oxidase subunit A n=39 Tax=Pseudomonas TaxID=286 RepID=A0A3G7K0E2_9PSED, (no KEGG hit, B grade, Uniref ID = A0A3G7K0E2_9PSED)
+  - Cleaves opines into amino acids and pyruvate
+- *ctg1_3409*: 3896393 - 3896701 --> UniRef90_A0A5M7CTD1 (2Fe-2S)-binding protein n=14 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A5M7CTD1_9PSED (C grade, no KEGG hit, UniRef ID = A0A5M7CTD1_9PSED)
+- ctg1_3410: 3896698 - 3898539 --> peptide/nickel transport system ATP-binding protein (B grade, KEGG ID = K02031)
+- ctg1_3411: 3898541 - 3899416 --> UniRef90_A0A0C1ZSU6 DNA-directed RNA polymerase subunit alpha n=30 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A0C1ZSU6_PSEFL (no KEGG hit, B grade, Uniref ID = A0A0C1ZSU6_PSEFL)
+- ctg1_3412: 3899413 - 3900369 --> peptide/nickel transport system permease protein (B grade, KEGG ID = K02033)
+
+### Region 10 (NRP-metallophore): 5056434 to 5155407
+```{r}
+Region10 <- Pseudomonas_chlororaphis_aureofaciens_annotations %>% filter(start_position >= 5056434 & end_position <=5155407)
+```
+
+- *ctg1_4474*: 5,076,434 - 5,077,768 --> L-ornithine N5-monooxygenase [EC:1.14.13.195 1.14.13.196] (B grade, KEGG ID = K10531)
+- ctg1_4475: 5,077,900 - 5,078,496 --> UniRef90_A0A165YGX4 RNA polymerase subunit sigma n=4 Tax=Pseudomonas TaxID=286 RepID=A0A165YGX4_PSEFL (C grade, no KEGG ID)
+- ctg1_4476: 5,078,716 - 5,079,888 --> membrane fusion protein, macrolide-specific efflux system (B grade, KEGG ID = K13888)
+- ctg1_4477: 5,079,889 - 5,081,862 --> macrolide transport system ATP-binding/permease protein [EC:7.6.2.-] (B grade, KEGG ID = K05685)
+- ctg1_4478: 5,081,870 - 5,083,279 --> outer membrane protein, multidrug efflux system (B grade, KEGG ID = K18139)
+- *ctg1_4479*: 5,083,355 - 5,084,977 --> UniRef90_A0A554PAC0 Twin-arginine translocation signal domain-containing protein n=19 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A554PAC0_9PSED (B grade, no KEGG hit)
+- ctg1_4480: 5,085,186 - 5,086,595 --> membrane dipeptidase [EC:3.4.13.19] (B grade, KEGG ID = K01273)
+- ctg1_4481: 5,086,617 - 5,087,915 --> UniRef90_A0A2C9EQN1 Isopenicillin N epimerase CefD n=56 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A2C9EQN1_PSEPH (B grade, no KEGG hit)
+- *ctg1_4482*: 5,087,959 - 5,088,855 --> UniRef90_Q4K997 Chromophore maturation protein *PvdO* n=55 Tax=Pseudomonadaceae TaxID=135621 RepID=Q4K997_PSEF5 (B grade, no KEGG hit)
+- ctg1_4483: 5,088,910 - 5,089,773 --> UniRef90_Q4K996 phosphoribosylglycinamide formyltransferase 1 n=49 Tax=Pseudomonadaceae TaxID=135621 RepID=Q4K996_PSEF5 (B grade, no KEGG hit)
+- ctg1_4484: 5,089,961 - 5,091,613 --> putative pyoverdin transport system ATP-binding/permease protein (B grade, KEGG ID = K06160)
+- ctg1_4485: 5,091,714 - 5,094,182 --> outer-membrane receptor for ferric coprogen and ferric-rhodotorulic acid (B grade, KEGG ID = K16088)
+- *ctg1_4486*: 5,094,570 - 5,107,805 --> UniRef90_A0A554PAB6 Amino acid adenylation domain-containing protein n=22 Tax=Pseudomonas TaxID=286 RepID=A0A554PAB6_9PSED (B grade, no KEGG hit)
+- *ctg1_4487*: 5,107,818 - 5,114,414 --> UniRef90_A0A554PAC2 Non-ribosomal peptide synthetase n=26 Tax=Pseudomonas TaxID=286 RepID=A0A554PAC2_9PSED (B grade, no KEGG hit)
+- *ctg1_4488*: 5,114,414 - 5,125,576 --> UniRef90_UPI002407C9DD amino acid adenylation domain-containing protein n=4 Tax=Pseudomonas chlororaphis TaxID=587753 RepID=UPI002407C9DD (B grade, no KEGG hit)
+
+### Region 11 (NRPS): 5189456 to 5242472
+```{r}
+Region11 <- Pseudomonas_chlororaphis_aureofaciens_annotations %>% filter(start_position >= 5189456 & end_position <=5242472)
+```
+
+NRPS region here is really only one gene:
+- *ctg1_4563*: 5209456 - 5222472 --> UniRef90_A0A554PEL7 Non-ribosomal peptide synthetase n=29 Tax=Pseudomonadaceae TaxID=135621 RepID=A0A554PEL7_9PSED (B grade, no KEGG hit)
+
+# Figure 3: Wild type vs deletion cell growth in corrosion assays as measured by viable plate counts
+
+1. Load the plate count data.
+```{r}
+Plate_counts_combined <- fread("Plate_counts_combined_20250915.txt", sep = "\t", header = "auto")
+```
+
+2. Add new variables to the data frame parsing the Comment variable that contains detailed informtion on the sample
+```{r}
+Plate_counts_combined_treatments_added <- Plate_counts_combined %>%
+                                          #Add time as a numeric variable
+                                          mutate(Time = case_when(grepl("0hr", Comment) ~ "0",
+                                                                  grepl("24hr", Comment) ~ "24",
+                                                                  grepl("72hr", Comment) ~ "72",
+                                                                  grepl("168hr", Comment) ~ "168")) %>%
+  
+                                          mutate(Time = as.numeric(Time)) %>%
+        
+                                          #Add wire treatment as a dedicated variable and leave as character
+                                          mutate(Wire_treatment = case_when(grepl("_Wire", Comment) ~ "Wire included",
+                                                                            grepl("NoWire", Comment) ~ "No wire")) %>%
+  
+  
+                                          #Add strain information
+                                          mutate(Strain = case_when(grepl("+10%inoc_", Comment) ~ "Wild type",
+                                                                    grepl("DMSO", Comment) ~ "Wild type",
+                                                                    grepl("0%inoc∆phz", Comment) ~ "∆phz",
+                                                                    grepl("0%inoc∆hcn", Comment) ~ "∆hcn",
+                                                                    grepl("DD", Comment) ~ "∆phz∆hcn")) %>%
+  
+                                          #Add DMSO information
+                                          mutate(DMSO_treatment = case_when(!grepl("DMSO", Comment) ~ "No DMSO",
+                                                                            grepl("+DMSO", Comment) ~ "DMSO")) 
+
+Plate_counts_combined_summary_statistics <- Plate_counts_combined_treatments_added %>%
+                                            group_by(Strain, Wire_treatment, DMSO_treatment, Flask_number, Time) %>%
+                                            filter(CFU_mL >0) %>% #remove any values that had 0 counts on the plate for graphing
+            
+                                            #Calculate plate counts using technical replicates for each flask at each time point
+                                            mutate(Technical_mean_CFU_mL = mean(CFU_mL),
+                                                   Technical_stdev_CFU_mL = sd(CFU_mL)) %>%
+                              
+                                             ungroup() %>%
+                            
+                                             #Calculate plate counts using average of technical replicates for all flasks (biological replicates)
+                                             group_by(Strain, Wire_treatment, DMSO_treatment, Time) %>%
+                                             
+                                             mutate(Biological_mean_CFU_mL = mean(Technical_mean_CFU_mL),
+                                                    Biological_stdev_CFU_mL = sd(Technical_mean_CFU_mL))
+
+write.table(Plate_counts_combined_summary_statistics, file = "Plate_counts_combined_summary_statistics_20251009.txt", sep = "\t", 
+            row.names = FALSE, col.names = TRUE) 
+```
+
+3. Plot the growth data, summarizing the means and standard deviations prior to the ggplot command.
+```{r}
+#Adjust the presentation aesthetics
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+dark2_colors <- brewer.pal(n = 7, name = "Dark2") #generate colour palette with desired levels to match ICP-MS data
+
+#Create custom display orders
+Plate_counts_combined_treatments_added$Strain_ordered <- factor(Plate_counts_combined_treatments_added$Strain,
+                                                             levels = c("Wild type",
+                                                                        "∆phz",
+                                                                        "∆hcn",
+                                                                        "∆phz∆hcn"))
+
+
+Growth_curves_log_scale <- Plate_counts_combined_treatments_added %>%
+                           filter(DMSO_treatment == "No DMSO") %>% #use this to only focus on experiments that did not receive DMSO
+                           group_by(Strain, Wire_treatment, DMSO_treatment, Flask_number, Time) %>%
+  
+                           filter(CFU_mL >0) %>% #remove any values that had 0 counts on the plate for graphing
+            
+                           #Calculate plate counts using technical replicates for each flask at each time point
+                           mutate(Technical_mean_CFU_mL = mean(CFU_mL),
+                                  Technical_stdev_CFU_mL = sd(CFU_mL)) %>%
+            
+                           ungroup() %>%
+          
+                           #Calculate plate counts using average of technical replicates for all flasks (biological replicates)
+                           group_by(Strain, Wire_treatment, DMSO_treatment, Time) %>%
+                           
+                           mutate(Biological_mean_CFU_mL = mean(Technical_mean_CFU_mL),
+                                  Biological_stdev_CFU_mL = sd(Technical_mean_CFU_mL)) %>%
+  
+                           
+                           #plotting script
+                      
+                           ggplot(aes(x=Time, y = log10(Biological_mean_CFU_mL), fill = Strain_ordered)) +
+                           geom_errorbar(aes(ymin = log10(Biological_mean_CFU_mL - Biological_stdev_CFU_mL),
+                                             ymax = log10(Biological_mean_CFU_mL + Biological_stdev_CFU_mL),
+                                             colour = Strain_ordered)) +
+                           geom_point(shape = 21, color = "black", stroke = 0.8, size = 6) +
+                           
+                           geom_line(aes(group = Flask_number, color = Strain_ordered))+
+                           scale_x_continuous(breaks = seq(0, 168, by = 24))+
+                           facet_grid(~ Wire_treatment) +
+                           ylab("Log10\n(CFU/mL)") +
+                           scale_y_continuous(labels = label_math(), limits = c(6, 10.5))+
+                           xlab("Time elapsed (hours)") + 
+                           scale_color_manual(name = "Strain", 
+                                               values = dark2_colors,
+                                               labels = c("Wild type", 
+                                                        expression(italic("∆phz")),
+                                                        expression(italic("∆hcn")),
+                                                        expression(italic("∆phz∆hcn"))))+
+                           scale_fill_manual(name = "Strain", 
+                                             values = dark2_colors,
+                                             labels = c("Wild type", 
+                                                      expression(italic("∆phz")),
+                                                      expression(italic("∆hcn")),
+                                                      expression(italic("∆phz∆hcn")))) +
+                           theme +
+                           theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                 axis.title.x = element_text(vjust = -2),
+                                 axis.title.y = element_text(vjust = 2))
+          
+Growth_curves_log_scale
+
+Growth_curves_log_scale_no_legend_angled <- Growth_curves_log_scale + theme(axis.text.x = element_text(angle = 45))
+
+ggsave("Fig3_plate_count_data_WT_phz_mutant_scatterplot_log10_20251009.jpg", dpi = 300, height=8, width=20, device=jpeg)
+ggsave("Fig3_plate_count_data_WT_phz_mutant_scatterplot_log10_20251009.tiff", dpi = 300, height=8, width=20, device=tiff)
+ggsave("Fig3_plate_count_data_WT_phz_mutant_scatterplot_log10_20251009.pdf", dpi = 300, height=8, width=20, device=cairo_pdf)
+```
+
+# Figure S5: Comparison of [Co(2+)] between acidify-filter and filter-acidify preservation with wild-type live cells
+
+1. Use the code below to load in source data.
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+```
+
+2. Use this code to create a similar figure to Figure 1 but facet it according to sample preservation and plot each replicate individually.
+```{r}
+#Adjust the presentation aesthetics
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+
+#Graphing script with additional data manipulation
+Acidify_filter_scatterplot <-  All_cobalt_data_combined_revised %>%
+                               filter(Wire_treatment == "Wire included") %>% #use this to only focus on experiments that did not receive DMSO
+                               filter(Abiotic_vs_biotic == "Wild type") %>%
+                               filter(Metabolite_treatment == "Nothing added") %>%
+                               filter(DMSO_treatment == "No DMSO") %>% #96 observations
+                               filter(between(Replicate, 1, 4)) %>%
+                              #plotting script
+  
+                               ggplot(aes(x=Time, 
+                                          y = Cobalt_concentration_uM_corrected
+                                          )) +
+                                      geom_point(size = 6) +
+                                      geom_line(aes(group = Bottle_number))+
+                                      scale_x_continuous(breaks = seq(0, 168, by = 24)) +
+                                      facet_grid(Replicate ~ Sample_preservation) +
+                                      ylab("Co(2+) concentration (µM) corrected for recoveries") +
+                                      xlab("Time elapsed (hours)") + 
+                                      theme +
+                                      theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                            axis.title.x = element_text(vjust = -2),
+                                            axis.title.y = element_text(vjust = 2),
+                                            axis.text.x = element_text(angle = 45))
+
+Acidify_filter_scatterplot
+
+#Save the images in different formats
+ggsave("FigS5_cobalt_ICPMS_data_sample_preservation_scatterplot_20251009.jpg", dpi = 300, height=16, width=12, device=jpeg)
+ggsave("FigS5_cobalt_ICPMS_data_sample_preservation_scatterplot_20251009.tiff", dpi = 300, height=16, width=12, device=tiff)
+ggsave("FigS5_cobalt_ICPMS_data_sample_preservation_scatterplot_20251009.pdf", dpi = 300, height=16, width=12, device=cairo_pdf)
+```
+# Figure S6. Cobalt dose-response curve reporting growth rate of P. chlororaphis subsp. aureofaciens in medium amended with CoCl2
+
+1. Load the summaries generated with the 'growthcurver' package that are the source data for the dose response curve.
+```{r}
+P_chlor_aur_growth_summary_variables_added <- fread("Pseudomonas_chlororaphis_aurefociens_growth_curve_summaries.txt", sep = "\t", header = "auto")
+```
+
+2. Use the commands in the 'drc' package to fit a 5 parameter logistic regression to create the dose response curve. Use the summary commands to get quick information on the IC/EC50 values for cobalt concentration.
+```{r}
+P_chlor_aur_growth_rate_5_param_model<- drm(r ~ Cobalt_concentration_uM_numeric, 
+                                            data = P_chlor_aur_growth_summary_variables_added, 
+                                            fct = LL.5())
+
+summary(P_chlor_aur_growth_rate_5_param_model)
+P_chlor_aur_growth_rate_summary_dose_data <- ED(P_chlor_aur_growth_rate_5_param_model, c(5, 10, 50), interval = "delta")
+```
+
+3. Plot the dose response curve using base R (most compatible with the drc package).
+```{r}
+P_chlor_aur_growth_rate_dose_response<- plot(P_chlor_aur_growth_rate_5_param_model, broken = FALSE, type = "all",
+                                        xlab = "Co(2+) concentration (µM)", xlim = c(0, 1000),
+                                        ylab = "Growth rate (hr-1)", 
+                                        main = "Pseudomonas chlororaphis aureofaciens growth curve in response to Co(2+)")
+                                        
+view(P_chlor_aur_growth_rate_dose_response)
+
+#Save as pdf using base R
+pdf(file = 'FigS6_Pseudomonas_chlororaphis_aureofaciens_growth_rate_cobalt_dose_response_curve_20251009.pdf', res = 300)
+plot(P_chlor_aur_growth_rate_5_param_model, broken = FALSE, type = "all",
+xlab = "Co(2+) concentration (µM)", xlim = c(0, 1000),
+ylab = "Growth rate (hr-1)", 
+main = "Pseudomonas chlororaphis aureofaciens \ngrowth curve in response to Co(2+)")
+dev.off()
+```
+# Figure S7: Comparison of [Co(2+)] between acidify-filter and filter-acidify preservation with sterile medium
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+```
+
+2. Use this code to create a similar figure to Figure 1 but facet it according to sample preservation and plot each replicate individually.
+```{r}
+#Adjust the presentation aesthetics
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+
+#Graphing script with additional data manipulation
+Acidify_filter_scatterplot_sterile <-  All_cobalt_data_combined_revised %>%
+                               filter(Wire_treatment == "Wire included") %>% #use this to only focus on experiments that did not receive DMSO
+                               filter(Abiotic_vs_biotic == "Sterile medium") %>%
+                               filter(Metabolite_treatment == "Nothing added") %>%
+                               filter(DMSO_treatment == "No DMSO") %>% #96 observations
+                               filter(between(Replicate, 2, 4)) %>%
+                              #plotting script
+  
+                               ggplot(aes(x=Time, 
+                                          y = Cobalt_concentration_uM_corrected
+                                          )) +
+                                      geom_point(size = 6) +
+                                      geom_line(aes(group = Bottle_number))+
+                                      scale_x_continuous(breaks = seq(0, 168, by = 24)) +
+                                      facet_grid(Replicate ~ Sample_preservation) +
+                                      ylab("Co(2+) concentration (µM) corrected for recoveries") +
+                                      xlab("Time elapsed (hours)") + 
+                                      theme +
+                                      theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                            axis.title.x = element_text(vjust = -2),
+                                            axis.title.y = element_text(vjust = 2),
+                                            axis.text.x = element_text(angle = 45))
+
+Acidify_filter_scatterplot_sterile
+
+#Save the images in different formats
+ggsave("FigS7_cobalt_ICPMS_data_sample_preservation_sterile_only_scatterplot_20251009.jpg", dpi = 300, height=16, width=12, device=jpeg)
+ggsave("FigS7_cobalt_ICPMS_data_sample_preservation_sterile_only_scatterplot_20251009.tiff", dpi = 300, height=16, width=12, device=tiff)
+ggsave("FigS7_cobalt_ICPMS_data_sample_preservation_sterile_only_scatterplot_20251009.pdf", dpi = 300, height=16, width=12, device=cairo_pdf)
+```
+# Figure S19: Boxplot of [Co(2+)] at 168 hours comparing oxic and anoxic treatments 
+
+1. Load the data frame from the compiled data and remove the outlier value from the sterile medium treatment that was contaminated and trim the data to only include the oxic vs anoxic experiments conducted with sterile and spent medium 
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+
+Oxic_vs_anoxic_data <- All_cobalt_data_combined_revised %>%
+                       filter(DMSO_treatment == "No DMSO") %>% #use this to only focus on experiments that did not receive DMSO
+                       filter(Sample_preservation == "Acidified, filtered") %>%
+                       filter(Metabolite_treatment == "Nothing added") %>%
+                       filter(Time == 168 & Wire_treatment == "Wire included") %>%
+                       filter(Abiotic_vs_biotic == "Sterile medium" |
+                              Abiotic_vs_biotic == "Sterile medium, anoxic" |
+                              Abiotic_vs_biotic == "Spent medium from ∆phz"|
+                              Abiotic_vs_biotic == "Spent medium from ∆phz, anoxic")
+```
+
+2. Generate the linear models and verify assumptions for the ANOVA using type III sum of squares.
+```{r}
+##Generate model
+Oxic_anoxic_model <- lm(Cobalt_concentration_uM_corrected ~ Abiotic_vs_biotic, 
+                        data = Oxic_vs_anoxic_data, 
+                        contrasts = list(Abiotic_vs_biotic = contr.sum), type =3)
+
+Oxic_anoxic_model
+par(mfrow = c(2,2))
+plot(Oxic_anoxic_model)
+
+#Run Breusch Pagan test for homoscedasticity
+bptest(Oxic_anoxic_model)
+
+#Run Shapiro-Wilk normality test
+shapiro.test(Oxic_anoxic_model$residuals)
+
+#Run Durbin-Watson test for autocorrelation
+dwtest(Oxic_anoxic_model)
+```
+## Figure S19 ANOVA Interpretation
+- Homoscedasticity may be an issue, it looks like samples associated with higher cobalt concentrations ~ 240 µM have higher variance.
+- Normal distribution of residuals looks good.
+- BP test returns a p-value of *0.2706* --> we cannot reject the null hypothesis of homoscedasticity.
+- SW test returns a p-value of *0.4928* --> we cannot reject the null hypothesis of normally distributed residuals.
+- DW test returns a p-value of *0.8272* --> we cannot reject the null hypothesis that there is no autocorrelation between data points.
+
+**All assumptions met, okay to proceed with ANOVA**
+
+3. Run the ANOVA and the Tukey comparison.
+```{r}
+Oxic_anoxic_type_III_ANOVA_results <- Anova(Oxic_anoxic_model, type = 3)
+Oxic_anoxic_type_III_ANOVA_results
+```
+- F-value = 136.12
+- p-value = 1.361e-10 ***
+- There is a *significant* effect of the different abiotic vs biotic treatments, which in this case, are sterile vs spent medium oxic vs anoxic
+
+4. Run a Tukey post-hoc test to figure out where the significant differences are.
+```{r}
+#First you need to convert the model to an aov object
+Oxic_anoxic_model_converted <- aov(Oxic_anoxic_model)
+Tukey_comparison_oxic_vs_anoxic <- TukeyHSD(Oxic_anoxic_model_converted, conf.level = 0.95)
+Tukey_comparison_oxic_vs_anoxic
+Tukey_comparison_oxic_vs_anoxic_data_frame <- as.data.frame(Tukey_comparison_oxic_vs_anoxic$Abiotic_vs_biotic)
+```
+
+5. Generate the boxplot. There is no need to annotate the boxes later because there are no significant differences.
+```{r}
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", size = 16, angle = 0, hjust = 0.5, vjust = 0.55, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 16, angle = 0, hjust = 0.5, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 18, angle = 0, hjust = 0.5, vjust = -1, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 18, angle = 90, face = "plain"),
+        strip.text.x = element_text(size = 20, colour = "grey20"),
+        strip.text.y = element_text(size = 20, colour = "grey20"),
+        plot.title = element_text(size = 18, face = "bold", hjust = 0.5, vjust = 1),
+        legend.title=element_text(size=18), 
+        legend.text=element_text(size=18),
+        legend.position = "right",
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+
+Oxic_vs_anoxic_boxplot <- Oxic_vs_anoxic_data %>%
+                          mutate(Abiotic_vs_biotic = fct_recode(Abiotic_vs_biotic, "Spent medium\nfrom ∆phz, anoxic" = "Spent medium from ∆phz, anoxic")) %>%
+                          mutate(Abiotic_vs_biotic = fct_recode(Abiotic_vs_biotic, "Sterile medium,\nanoxic" = "Sterile medium, anoxic")) %>%
+                          mutate(Abiotic_vs_biotic = fct_recode(Abiotic_vs_biotic, "Spent medium\nfrom ∆phz" = "Spent medium from ∆phz")) %>%
+                          ggplot(aes(x=Abiotic_vs_biotic, y=Cobalt_concentration_uM_corrected)) + 
+                          geom_boxplot() +
+                          geom_jitter(fill = "grey", colour = "black", width = 0.1, pch =21, stroke =1)+
+                          #ylim(0, 400) +
+                          labs(title = "" ,
+                          y = "Co(2+) concentration (µM)\ncorrected for recovery", 
+                          x = "Oxic vs anoxic treatments in sterile and spent media") +
+                          theme +
+                          theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                                axis.title.x = element_text(vjust = -2),
+                                axis.title.y = element_text(vjust = 2))
+Oxic_vs_anoxic_boxplot
+
+ggsave("FigS19_Cobalt_ICPMS_data_oxic_vs_anoxic_sterile_spent_medium_comparison_boxplot_20251009.jpg", dpi = 300, height=6, width=11, device=jpeg)
+ggsave("FigS19_Cobalt_ICPMS_data_oxic_vs_anoxic_sterile_spent_medium_comparison_boxplot_20251009.tiff", dpi = 300, height=6, width=11, device=tiff)
+ggsave("FigS19_Cobalt_ICPMS_data_oxic_vs_anoxic_sterile_spent_medium_comparison_boxplot_20251009.pdf", dpi = 300, height=6, width=11, device=cairo_pdf)
+```
+
+## Figure S19 Tukey comparison results
+
+$Abiotic_vs_biotic
+                                                            diff         lwr        upr     p adj
+Spent medium from ∆phz, anoxic-Spent medium from ∆phz -990.74815 -1160.73133 -820.76497 0.0000000
+Sterile medium-Spent medium from ∆phz                 -832.72603  -971.51672 -693.93535 0.0000000
+Sterile medium, anoxic-Spent medium from ∆phz         -989.60484 -1159.58802 -819.62166 0.0000000
+Sterile medium-Spent medium from ∆phz, anoxic          158.02211    19.23143  296.81280 0.0236234
+Sterile medium, anoxic-Spent medium from ∆phz, anoxic    1.14331  -168.83987  171.12649 0.9999972
+Sterile medium, anoxic-Sterile medium                 -156.87880  -295.66949  -18.08812 0.0247129
+
+### Figure S19 Letters to add to plot
+- Spent medium from ∆phz = a
+- Spent medium from ∆phz, anoxic = b
+- Sterile medium = c
+- Sterile medium, anoxic = b
+
+# Figure S21: Boxplot of [Co(2+)] at 168 hours across DMSO biotic treatments
+
+1. Load the source data and trim it to the desired samples to carry out the comparison for the effect of DMSO.
+```{r}
+All_cobalt_data_combined_revised <- fread("All_cobalt_ICPMS_data_cleaned_formatted_revised_mass_balance_summaries_included_20251001.txt", sep = "\t", header = "auto")
+
+#Subet DMSO data
+DMSO_comparison_data <- All_cobalt_data_combined_revised %>%
+                        filter(Wire_treatment == "Wire included") %>%
+                        filter(Sample_preservation == "Acidified, filtered") %>%
+                        filter(Time == 168) %>%
+                        filter(Abiotic_vs_biotic == "Wild type")
+```
+
+2. Use the subset data to generate a linear model that for an ANOVA comparison. Use this code to verify the assumptions of linear model fit.
+```{r}
+DMSO_comparison_model <- lm(Cobalt_concentration_uM_corrected ~ DMSO_treatment, data = DMSO_comparison_data,
+                            contrasts = list(DMSO_treatment = contr.sum), type =3) #need to do this for unabalance sample size
+DMSO_comparison_model
+par(mfrow = c(2,2))
+plot(DMSO_comparison_model)
+```
+
+### Interpretation
+- Looks like we may have issues with equal variance in the absence of DMSO.
+- Normality looks pretty good excpet for the 5th and 7th data points.
+
+3. Run formal tests to verify the assumptions of linear models.
+```{r}
+#Run Breusch Pagan test for homoscedasticity
+bptest(DMSO_comparison_model)
+
+#Run Shapir-Wilk normality test
+shapiro.test(DMSO_comparison_model$residuals)
+
+#Run Durbin-Watson test for autocorrelation
+dwtest(DMSO_comparison_model)
+```
+
+### Interpretation
+
+studentized Breusch-Pagan test
+
+data:  DMSO_comparison_model
+BP = 6.5497, df = 3, p-value = 0.04823 *p < 0.05* meaning we reject the null hypothesis of homoscedasticity, this is good (just barely)
+
+
+Shapiro-Wilk normality test
+
+data:  DMSO_comparison_model$residuals
+W = 0.72204, p-value = 0.6735 *p >0.05*, meaning we cannot reject the null hypothesis that are normally distributed.
+
+
+Durbin-Watson test
+
+data:  DMSO_comparison_model
+DW = 1.9783, p-value = 0.1346
+
+3. Regenerate the model with log10 transformed data.
+```{r}
+DMSO_comparison_model_log10 <- lm(log10(Cobalt_concentration_uM_corrected) ~ DMSO_treatment, data = DMSO_comparison_data,
+                            contrasts = list(DMSO_treatment = contr.sum), type =3) #need to do this for unabalance sample size
+DMSO_comparison_model_log10
+par(mfrow = c(2,2))
+plot(DMSO_comparison_model_log10)
+
+#Formal tests
+
+#Run Breusch Pagan test for homoscedasticity
+bptest(DMSO_comparison_model_log10)
+
+#Run Shapir-Wilk normality test
+shapiro.test(DMSO_comparison_model_log10$residuals)
+
+#Run Durbin-Watson test for autocorrelation
+dwtest(DMSO_comparison_model_log10)
+```
+studentized Breusch-Pagan test
+
+data:  DMSO_comparison_model
+BP = 6.5497, df = 3, p-value = 0.2456 *p > 0.05* meaning we reject the null hypothesis of homoscedasticity, this is good (just barely)
+
+
+Shapiro-Wilk normality test
+
+data:  DMSO_comparison_model$residuals
+W = 0.72204, p-value = 0.5072 *p >0.05*, meaning we cannot reject the null hypothesis that are normally distributed.
+
+
+Durbin-Watson test
+
+data:  DMSO_comparison_model
+DW = 1.9783, p-value = 0.06003 *p > 0.05*
+
+**All linear model assumptions met**
+
+4. Run the ANOVA and the Tukey comparison.
+```{r}
+DMSO_type_III_ANOVA_results_log10 <- Anova(DMSO_comparison_model_log10, type = 3)
+DMSO_type_III_ANOVA_results_log10
+```
+
+### Interpretation
+- F-value = 0.06003
+- p- value = 3.879e-05 ***
+- DMSO treatment had a significant effect on cobalt concentration at 168 hours for wild type cell experiments.
+
+5. Create a boxplot to illustrate this result. There is no need to annotate because there are only two boxes and the independent variable was significant. 
+```{r}
+theme<- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        axis.text.x = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", 
+        size = 32, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", 
+        size = 34, angle = 0, hjust = .5, vjust = 0, face = "bold"),
+        axis.title.y = element_text(color = "grey20", 
+        size = 34, angle = 90, face = "bold"),
+        strip.text.x = element_text(size = 32, colour = "grey20", face = "bold"),
+        strip.text.y = element_text(size = 32, colour = "grey20"),
+        plot.title = element_text(size = 30, face = "bold", hjust = .5),
+        legend.title=element_text(size=32, face = "bold"), 
+        legend.text=element_text(size=32),
+        panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+DMSO_boxplot <- DMSO_comparison_data %>%
+                ggplot(aes(x=DMSO_treatment, y=log10(Cobalt_concentration_uM_corrected))) + 
+                geom_boxplot() +
+                geom_jitter(fill = "grey", colour = "black", width = 0.1, pch =21, stroke =1)+
+                #ylim(0, 3000) +
+                labs(title = "" ,
+                y = "log10[Co(2+) concentration (µM)]\ncorrected for recoveries", 
+                x = "DMSO treatment") +
+                theme +
+                theme(plot.margin = unit(c(1,1,1,1), "cm"),
+                      axis.title.x = element_text(vjust = -2),
+                      axis.title.y = element_text(vjust = 2),
+                      axis.text.x = element_text(angle = 0))
+
+DMSO_boxplot
+
+#Save different image formats
+ggsave("FigS21_cobalt_ICPMS_data_DMSO_20251009.jpg", dpi = 300, height=8, width=10, device=jpeg)
+ggsave("FigS21_cobalt_ICPMS_data_DMSO_20251009.tiff", dpi = 300, height=8, width=10, device=tiff)
+ggsave("FigS21_cobalt_ICPMS_data_DMSO_20251009.pdf", dpi = 300, height=8, width=10, device=cairo_pdf)
+```
+
+# Appendix I: Long-read sequence genome validation
+
+## Run Nanophase to assemble nanopore long read sequencing data on mutants
+
+1. Make a directory to house the pre-assembled genomes and raw fasqt.gz files from the sequencing centre. Copy the files over to the target directories.
+```{bash}
+mkdir Pseudomonas_deletion_mutant_long_read_sequencing_data
+mkdir Raw_fasta_files
+mkdir Preassembled_genomes
+
+#Copy pre-assembled genomes
+scp daniel@134.117.183.97:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/FlowGenomics_data/Pca*.fasta ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Preassembled_genomes
+
+#Copy raw fastq files
+scp daniel@134.117.183.97:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/FlowGenomics_data/4074f4bc/fastqs/*.fastq.gz ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Raw_fasta_files
+```
+
+2. Start a screen, navigate to the proper directory, and activate nanophase to run the assembly in each raw fastq.gz file.
+```{bash}
+tmux new -s nanophase_run #you can change this name to whatever you want
+cd ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Raw_fasta_files
+conda activate nanophase
+
+#Wild type
+nanophase isolate -l Pca-WT.fastq.gz -t 40 -o ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_WT_nanophase_assembly
+
+#∆phz deletion mutant
+nanophase isolate -l Pca-phz.fastq.gz -t 40 -o ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_phz_nanophase_assembly
+
+#∆hcn deletion mutant
+nanophase isolate -l Pca-hcn.fastq.gz -t 40 -o ~/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_hcn_nanophase_assembly
+```
+
+3. Rename files (nanophase provides generic names). Export and copy over required files to computer.
+```{bash}
+cd /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_WT_nanophase_assembly/03-Polishing/Final-bins
+
+mv bin.fasta Pca_WT_nanophase.fasta
+
+mv nanophase.ont.genome.summary Pca_WT_nanophase.ont.genome.summary
+
+cd /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_phz_nanophase_assembly/03-Polishing/Final-bins
+
+mv bin.fasta Pca_phz_nanophase.fasta
+
+mv nanophase.ont.genome.summary Pca_phz_nanophase.ont.genome.summary
+
+cd /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_hcn_nanophase_assembly/03-Polishing/Final-bins
+
+mv bin.fasta Pca_hcn_nanophase.fasta
+
+mv nanophase.ont.genome.summary Pca_hcn_nanophase.ont.genome.summary
+
+scp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_WT_nanophase_assembly/03-Polishing/Pca_WT_nanophase.ont.genome.summary daniel@134.117.183.120:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/
+
+scp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_phz_nanophase_assembly/03-Polishing/Pca_phz_nanophase.ont.genome.summary daniel@134.117.183.120:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/
+
+scp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_hcn_nanophase_assembly/03-Polishing/Pca_hcn_nanophase.ont.genome.summary daniel@134.117.183.120:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/
+```
+
+
+## Re-run DRAM on the pre-assembled and nanophase assembled genomes
+
+1. Copy all of the input .fasta files to a dedicated directory to facilitate running DRAM.
+```{bash}
+cd /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data
+
+mkdir DRAM_analyses
+mkdir DRAM_analyses/Input_genomes
+
+cp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Preassembled_genomes/*.fasta /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses/Input_genomes
+
+cp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_WT_nanophase_assembly/03-Polishing/Final-bins/*.fasta /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses/Input_genomes
+
+cp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_phz_nanophase_assembly/03-Polishing/Final-bins/*.fasta /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses/Input_genomes
+
+cp /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/Pca_hcn_nanophase_assembly/03-Polishing/Final-bins/*.fasta /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses/Input_genomes
+```
+
+2. Create a screen to run DRAM in and activate the conda environment. Run DRAM with the --use_uniref flag.
+```{bash}
+cd /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses
+
+tmux new -s Pseudomonas_DRAM
+conda activate DRAM_conda
+DRAM.py annotate -i 'Input_genomes/*.fasta' -o Pseudomonas_genome_DRAM_annotation_uniref90_20250916 --use_uniref --threads 40
+```
+
+3. Create the distillate to obtain all of the summary files.
+```{bash}
+DRAM.py distill -i Pseudomonas_genome_DRAM_annotation_uniref90_20250916/annotations.tsv -o Pseudomonas_genome_DRAM_annotation_uniref90_20250916/Pseudomonas_genome_DRAM_genome_summaries_20250916 --trna_path Pseudomonas_genome_DRAM_annotation_uniref90_20250916/trnas.tsv --rrna_path Pseudomonas_genome_DRAM_annotation_uniref90_20250916/rrnas.tsv
+```
+
+4. Copy the whole directory over to your computer.
+```{bash}
+scp -r /files/home/dgregoire/Pseudomonas_genome_analyses/Pseudomonas_deletion_mutant_long_read_sequencing_data/DRAM_analyses daniel@134.117.183.120:Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/
+```
+
+## Verify long-read assemblies for phz and hcn genes.
+
+1. Load the annotation file for all genomes output by DRAM.
+```{r}
+#Change the directory to load the data
+setwd("/Users/daniel/Dropbox/Carleton/Research_program/E_waste_biogeochemistry/Corrosion_project/Pseudomonas_genome_annotation/DRAM_analyses/Pseudomonas_genome_DRAM_annotation_uniref90_20250916")
+Pseudomonas_long_read_genome_annotation <- fread("annotations.tsv", sep = "\t", header = "auto")
+```
+
+2. Separate each genome into a separate annotation data frame that includes the genome from the sequencing centre and the ones asembled with nanophase.
+```{r}
+Pca_WT_genomes <- Pseudomonas_long_read_genome_annotation %>% filter(fasta == "Pca-WT" | fasta == "Pca_WT_nanophase")
+Pca_phz_genomes <- Pseudomonas_long_read_genome_annotation %>% filter(fasta == "Pca-phz" | fasta == "Pca_phz_nanophase")
+Pca_hcn_genomes <- Pseudomonas_long_read_genome_annotation %>% filter(fasta == "Pca-hcn" | fasta == "Pca_hcn_nanophase")
+```
+
+3. Manually search the expected gene positions for the phz and hcn genes in Proksee (separate figures manually downloaded).
+
