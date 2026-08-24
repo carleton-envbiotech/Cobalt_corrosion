@@ -1,0 +1,751 @@
+---
+title: "LC-HRMS data processing workflow"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+**Purpose:** The purpose of this document is to demonstrate how to do a reproducible data manipulation workflow using output .csv files generated manually in mzMine. R code underlying Figure S5 is detailed below (data clean-up and visualization). Figures S6-S8 were downloaded from the Feature Based Molecular Network (FBMN) portal, but interpretations for data underpinning these figures is presented in this codebook. All three figures are included in the Supplementary Information.
+
+# Packages
+```{r}
+library(tidyverse)
+library(data.table)
+library(readxl)
+library(vegan)
+library(tibble)
+library(ggrepel)
+library(Cairo)
+```
+
+# 1. Loading the 0.1 retention time drift file into Feature Based Molecular Network (FBMN)
+
+Link to FBMN here: https://fbmn-statsguide.gnps2.org/Data_Preparation
+
+**Note:** This workflow assumes a .csv quantification table for features has been generated in mzMine and a metadata file has been created manually.
+
+**Note:** Only process data only for experimental samples and blanks, there is no need to process the standards because it may affect some of the normalization methods applied in FBMN due to high signal intensities. 
+
+1. Load the quantification data for the full data set. 
+```{r}
+Full_quantification_table_01_RT <- read.csv("Pseudomonas_metabolome_mzMine_2026-06-22_0.1RT.csv")
+```
+
+Original data processing had 29896 observations across 1140 variables. Revised data processing in mzMine using different parameters and a 0.1 RT drift brought the data to 18960 observations across 1044 variables.
+
+2. Clean up the file so that it has an m/z, RT, id, and then the file names but only the values for area. *It is critical to convert NAs to 0s*, the software will not accept a column that contains any blank entries or NA values. Make sure you filter out the columns for standards prior to adding in the logical arguments for filtering out NA observations and change the column names appropriately.
+```{r}
+Full_quantification_table_01_RT_cleaned <- Full_quantification_table_01_RT %>%
+                                           dplyr::select("id", "mz", "rt", matches(".+.area$")) %>% #trims from 1044 variables to 67 column
+                                           rename_with(~ sub("^X", "", .x)) %>%
+                                           rename_with(~ sub("\\.area$", "", .x)) %>%
+                                           rename_with(~ str_remove(.x, "^datafile\\.")) %>%
+        
+                                          #Filter out columns for standards based on the ugmL string of text
+                                           dplyr::select(-contains("ugmL")) %>% #No change because standards not included
+        
+                                           filter(!if_all(c(`1.1.DD.0hr.1x.2026.05.28.mzML`:`blank.9.2026.05.28.mzML`), is.na)) %>% #18960 obs
+                                           dplyr::select(where(~ !all(is.na(.)))) %>% #remove columns that only contain NA
+                                           mutate(across(c(`1.1.DD.0hr.1x.2026.05.28.mzML`:`blank.9.2026.05.28.mzML`), ~ tidyr::replace_na(.x, 0)))
+
+write.csv(Full_quantification_table_01_RT_cleaned, 
+          file = "Pseudomonas_metabolome_mzMine_samples_and_blanks_only_0.1RT_20260627.csv",
+          row.names = FALSE,
+          quote = FALSE)
+```
+
+3. Edit the metadata file so it aligns with the samples in the quantification file.
+```{r}
+Full_metadata <- read_excel("Metadata_metabolome_complete_2026-06-02.xlsx", sheet = "Complete metadata")
+
+Full_metadata_cleaned <- Full_metadata %>%
+                         filter(!ATTRIBUTE_sample_type == "Standard") %>%
+                         mutate(Filename = gsub("-", ".", Filename)) %>%
+                         mutate(Filename = gsub(" ", ".", Filename)) %>%
+                         rename_with(~ gsub("ATTRIBUTE_", "", .x)) #Remove this extra text which is no longer needed
+
+write.csv(Full_metadata_cleaned, 
+          file = "Pseudomonas_metabolome_metadata_samples_and_blanks_only_20260627.csv",
+          row.names = FALSE,
+          quote = FALSE)
+```
+
+# 1.1. Process the 0.1 RT Data in FBMN and inspect in R
+
+1. Manually upload the data to: https://fbmn-statsguide.gnps2.org/Data_Preparation. Load the metadata first because loading the quantification table first leads to lagging and bugs.
+
+2. Process the data for blank removal and imputation. See if these can be exported as a dedicated data frame.
+
+**Note:** Once you tick the box for this feature, it will generate a table in real time that can be downloaded as a .csv file.
+
+**Note:** The data in the imputation table only contains the features that were imputed across the data set. You can check against comparable columns in the blank corrected file and the original values > 0 should be preserved and still shown in the imputation data frame.
+
+3. Add in the step of normalization using TIC and see if that can also be exported as a dedicated data frame.
+
+**Note:** You can do this, but you have to click submit for statistics to get the final data frame. It also transposes the data frame so all features are columns and all samples are rows, preparing it for matrix formatting.
+
+4. Load each .csv to compare the data manipulations on the top 10 rows of data. Use the 'fread' package because it preserves special characters which are important at this stage because of the format mz@rt for each feature.
+```{r}
+Blank_corrected_01_RT <- fread("Pseudomonas_metabolome_mzMine_samples_and_blanks_only_0.1RT_20260627_blank_corrected.csv") 
+
+Blank_corrected_01_RT_min_max <- Blank_corrected_01_RT %>%
+                                 dplyr::select(`1.1.DD.0hr.1x.2026.05.28`:`6.6.WT.72hr.1x.2026.05.28`) %>%
+                                 summarise(min_value = min(unlist(across(everything()))[unlist(across(everything())) > 0], na.rm = TRUE),
+                                           max_value = max(unlist(across(everything()))[unlist(across(everything())) > 0], na.rm = TRUE))
+
+Imputation_01_RT <- fread("Pseudomonas_metabolome_mzMine_samples_and_blanks_only_0.1RT_20260627_imputed_data.csv")
+
+TIC_normalized_data_01_RT <- fread("Pseudomonas_metabolome_mzMine_samples_and_blanks_only_0.1RT_20260627_blank_corrected_imputation_TIC_normalized.csv")
+
+#Look for the min and max of the TIC normalized data
+
+TIC_normalization_min_max_01_RT <- TIC_normalized_data_01_RT %>%
+                                   dplyr::select(`501.08695@1.11`:`549.4463@13.09`) %>%
+                                   summarise(min_value = min(unlist(across(everything())), na.rm = TRUE),
+                                             max_value = max(unlist(across(everything())), na.rm = TRUE))
+```
+
+Looking at the min max TIC normalized data, it still covers 7 orders of magnitude in line with the original raw non-normalized data.
+
+**Note:** This is the data frame that you would manually bring into R for generating the biplot. 
+
+# 2. Generate loading plots (Figure S5) using the blank corrected, imputed, and TIC normalized data with the 0.1 RT drift
+
+1. Import the TIC normalized data into R using fread to preserve special characters. Generate a sepparate data frame to house the categorical variables.
+```{r}
+TIC_normalized_data_01_RT <- fread("Pseudomonas_metabolome_mzMine_samples_and_blanks_only_0.1RT_20260627_blank_corrected_imputation_TIC_normalized.csv") %>%                              dplyr::rename(SampleID = V1)
+
+TIC_normalized_data_01_RT_categorical_variables <- TIC_normalized_data_01_RT %>% dplyr::select(SampleID:timepoint_hours)
+```
+
+2. Produce the Principal Component Analysis (PCA) from the data frames exported from the portal. These data have already been normalized to total ion current, so it is important to indicate FALSE for the 'scale =' argument when generating the PCA matrix with the 'rda' command.
+```{r}
+#Move the samples names to rownames
+TIC_normalized_data_01_RT_sample_rownames <- TIC_normalized_data_01_RT %>%
+                                             column_to_rownames(var = names(TIC_normalized_data_01_RT)[1]) %>%
+                                             dplyr::select(-c(sample_type, strain, timepoint_hours, wire_presence))
+
+PCA_matrix_01_RT <- as.matrix(TIC_normalized_data_01_RT_sample_rownames)
+
+#Use vegan without constraints on the redundancy analysis function to generate a pca
+PCA_ordination_01_RT_no_scaling <- rda(PCA_matrix_01_RT, scale = FALSE)
+
+#Extract scores
+PCA_ordination_01_RT_no_scaling_scores <- as.data.frame(scores(PCA_ordination_01_RT_no_scaling, 
+                                                               display = "sites", 
+                                                               choices = 1:10)) #need to explicitly define PC# beyond 2
+
+#Regenerate the scree plot to look at the variance explained
+PCA_ordination_01_RT_no_scaling_eigen_values <- as.numeric(eigenvals(PCA_ordination_01_RT_no_scaling))
+
+PCA_ordination_01_RT_no_scaling_variance_explained <- PCA_ordination_01_RT_no_scaling_eigen_values / sum(PCA_ordination_01_RT_no_scaling_eigen_values) * 100
+
+#Show scree plot
+barplot(
+  PCA_ordination_01_RT_no_scaling_variance_explained,
+  names.arg = paste0("PC", seq_along(PCA_ordination_01_RT_no_scaling_variance_explained)),
+  ylab = "% Variance Explained",
+  xlab = "Principal Components",
+  col = "steelblue",
+  las = 2,
+  cex.names = 0.8,
+  ylim = c(0, max(PCA_ordination_01_RT_no_scaling_variance_explained) * 1.3)
+)
+
+#Add the categorical data back in to facilitate colour coding
+PCA_ordination_01_RT_no_scaling_scores$SampleID <- rownames(PCA_ordination_01_RT_no_scaling_scores)
+
+PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables <- PCA_ordination_01_RT_no_scaling_scores %>%
+                                                                     relocate(SampleID) %>% #Default to first position
+                                                                     left_join(TIC_normalized_data_01_RT_categorical_variables) %>%
+                                                                     relocate(sample_type:timepoint_hours, .after = SampleID)
+
+#Create the ordination
+
+PCA_ordination_01_RT_no_scaling_plot_strain_colour_coded_PC1_vs_PC2_plot <-PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables %>%
+                                                                           ggplot(aes(PC1, PC2, colour = strain)) +
+                                                                           geom_point(size = 4, alpha = 0.9) +
+                                                                           theme_classic() +
+                                                                           labs(title = "Principal componenent analyses for different strain metabolomes",
+                                                                           x = paste0("PC1 (", 
+                                                                                      round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+                                                                           y = paste0("PC2 (",
+                                                                                      round(PCA_ordination_01_RT_no_scaling_variance_explained[2],1), "%)"),
+                                                                                colour = "Strain")
+
+PCA_ordination_01_RT_no_scaling_plot_strain_colour_coded_PC1_vs_PC2_plot
+
+PCA_ordination_01_RT_no_scaling_plot_strain_colour_coded_PC1_vs_PC3_plot <-  PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables %>%
+                                                                             ggplot(aes(PC1, PC3, colour = strain)) +
+                                                                             geom_point(size = 4, alpha = 0.9) +
+                                                                             theme_classic() +
+                                                                             labs(title = "Principal componenent analyses for different strain metabolomes",
+                                                                                  x = paste0("PC1 (", 
+                                                                                      round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+                                                                                  y = paste0("PC3 (",
+                                                                                      round(PCA_ordination_01_RT_no_scaling_variance_explained[3],1), "%)"),
+                                                                                  colour = "Strain")
+
+PCA_ordination_01_RT_no_scaling_plot_strain_colour_coded_PC1_vs_PC3_plot
+```
+3. Generate the loading plot for the plot that explains the most variance (PC1 vs PC2).
+```{r}
+#Extract the loading data as well
+
+PCA_loadings_01_RT <- as.data.frame(scores(PCA_ordination_01_RT_no_scaling, display = "species"))
+
+PCA_loadings_01_RT$Metabolite <- rownames(PCA_loadings_01_RT)
+
+#Load top 10 and 20 contributing to space on PC1 and PC2
+PCA_loadings_01_RT_top20_PC1_PC2 <-  PCA_loadings_01_RT %>%
+                                     mutate(
+                                      abs_PC1 = abs(PC1),
+                                      abs_PC2 = abs(PC2),
+                                      total_influence = abs_PC1 + abs_PC2
+                                    ) %>%
+                                    arrange(desc(total_influence)) %>%
+                                    head(20)
+
+PCA_loadings_01_RT_top10_PC1_PC2 <-  PCA_loadings_01_RT %>%
+                                     mutate(
+                                      abs_PC1 = abs(PC1),
+                                      abs_PC2 = abs(PC2),
+                                      total_influence = abs_PC1 + abs_PC2
+                                    ) %>%
+                                    arrange(desc(total_influence)) %>%
+                                    head(10)
+
+PCA_loadings_01_RT_top20_PC1_PC2_barplot <- PCA_loadings_01_RT_top20_PC1_PC2 %>%
+                                            dplyr::select(Metabolite, PC1, PC2) %>%
+                                            pivot_longer(cols = c(PC1, PC2),
+                                                         names_to = "PC",
+                                                         values_to = "Loading") %>%
+                                            ggplot(aes(x = reorder(Metabolite, Loading), y = Loading, fill = PC)) +
+                                            geom_col(position = "dodge") +
+                                            coord_flip() +
+                                            theme_classic() +
+                                            labs(
+                                              title = "Top 20 PCA Loadings (PC1 & PC2)",
+                                              x = "Metabolite",
+                                              y = "Loading"
+                                            )
+
+PCA_loadings_01_RT_top20_PC1_PC2_barplot
+
+# Scatterplot
+
+PCA_loadings_01_RT_top20_PC1_PC2_scatterplot<-ggplot(PCA_loadings_01_RT_top20_PC1_PC2, aes(PC1, PC2)) +
+                                              geom_point(size = 3) +
+                                              geom_text(aes(label = Metabolite), hjust = 0.2, vjust = 0.2) +
+                                              theme_classic() +
+                                              labs(
+                                                x = "PC1 loading",
+                                                y = "PC2 loading"
+                                              )
+                          
+PCA_loadings_01_RT_top20_PC1_PC2_scatterplot
+
+#Volcano style plot
+
+PCA_loadings_01_RT_top20_PC1_PC2_volcano_data <- PCA_loadings_01_RT %>%
+                                                  mutate(
+                                                    contribution = PC1^2 + PC2^2,
+                                                    abs_PC1 = abs(PC1),
+                                                    abs_PC2 = abs(PC2)
+                                                  )
+
+PCA_loadings_01_RT_top10_PC1_PC2_volcano_data <- PCA_loadings_01_RT %>%
+                                                  mutate(
+                                                    contribution = PC1^2 + PC2^2,
+                                                    abs_PC1 = abs(PC1),
+                                                    abs_PC2 = abs(PC2))
+
+ggplot(PCA_loadings_01_RT_top20_PC1_PC2_volcano_data, aes(PC1, PC2)) +
+  geom_point(aes(color = contribution), size = 3, alpha = 0.8) +
+  scale_color_gradient(low = "grey80", high = "red") +
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top20_PC1_PC2,
+    aes(label = Metabolite),
+    size = 3,
+    box.padding = 0.5,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf) +
+  theme_classic() +
+  coord_cartesian(clip = "off") +  # prevents label clipping
+  labs(title = "PCA Loading Volcano Plot (Top 20 Contributors)",
+       x = "PC1 loading",
+       y = "PC2 loading",
+       color = "Contribution")
+```
+4. Generate the loading plot for the plot that explains the second most variance (PC1 vs PC3). This is because the deletion strains separate slightly better with this PC combination.
+```{r}
+#Extract the loading data as well
+
+PCA_loadings_01_RT <- as.data.frame(scores(PCA_ordination_01_RT_no_scaling, display = "species", choices = 1:10))
+
+PCA_loadings_01_RT$Metabolite <- rownames(PCA_loadings_01_RT)
+
+#Load top 10-20 contributing to space on PC1 and PC3
+PCA_loadings_01_RT_top20_PC1_PC3 <-  PCA_loadings_01_RT %>%
+                                     dplyr::mutate(
+                                      abs_PC1 = abs(PC1),
+                                      abs_PC3 = abs(PC3),
+                                      total_influence = abs_PC1 + abs_PC3
+                                    ) %>%
+                                    arrange(desc(total_influence)) %>%
+                                    head(20)
+
+PCA_loadings_01_RT_top10_PC1_PC3 <-  PCA_loadings_01_RT %>%
+                                     dplyr::mutate(
+                                      abs_PC1 = abs(PC1),
+                                      abs_PC3 = abs(PC3),
+                                      total_influence = abs_PC1 + abs_PC3
+                                    ) %>%
+                                    arrange(desc(total_influence)) %>%
+                                    head(10)
+
+PCA_loadings_01_RT_top20_PC1_PC3_barplot <- PCA_loadings_01_RT_top20_PC1_PC3 %>%
+                                            dplyr::select(Metabolite, PC1, PC3) %>%
+                                            pivot_longer(cols = c(PC1, PC3),
+                                                         names_to = "PC",
+                                                         values_to = "Loading") %>%
+                                            ggplot(aes(x = reorder(Metabolite, Loading), y = Loading, fill = PC)) +
+                                            geom_col(position = "dodge") +
+                                            coord_flip() +
+                                            theme_classic() +
+                                            labs(
+                                              title = "Top 20 PCA Loadings (PC1 & PC3)",
+                                              x = "Metabolite",
+                                              y = "Loading"
+                                            )
+
+PCA_loadings_01_RT_top20_PC1_PC3_barplot
+
+# Scatterplot
+
+PCA_loadings_01_RT_top20_PC1_PC3_scatterplot<-ggplot(PCA_loadings_01_RT_top20_PC1_PC3, aes(PC1, PC3)) +
+                                              geom_point(size = 3) +
+                                              geom_text(aes(label = Metabolite), hjust = 0.2, vjust = 0.2) +
+                                              theme_classic() +
+                                              labs(
+                                                title = "Top 20 Metabolite Loadings (PCA space)",
+                                                x = "PC1 loading",
+                                                y = "PC3 loading"
+                                              )
+                          
+PCA_loadings_01_RT_top20_PC1_PC3_scatterplot
+
+#Volcano style plot
+
+PCA_loadings_01_RT_top20_PC1_PC3_volcano_data <- PCA_loadings_01_RT %>%
+                                                  mutate(
+                                                    contribution = PC1^2 + PC3^2,
+                                                    abs_PC1 = abs(PC1),
+                                                    abs_PC3 = abs(PC3)
+                                                  )
+
+PCA_loadings_01_RT_top10_PC1_PC3_volcano_data <- PCA_loadings_01_RT %>%
+                                                  mutate(
+                                                    contribution = PC1^2 + PC3^2,
+                                                    abs_PC1 = abs(PC1),
+                                                    abs_PC3 = abs(PC3)
+                                                  )
+
+ggplot(PCA_loadings_01_RT_top20_PC1_PC3_volcano_data, aes(PC1, PC3)) +
+  geom_point(aes(color = contribution), size = 3, alpha = 0.8) +
+  scale_color_gradient(low = "grey80", high = "red") +
+  
+  # safer labels
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top20_PC1_PC3,
+    aes(label = Metabolite),
+    size = 3,
+    box.padding = 0.5,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf
+  ) +
+  
+  theme_classic() +
+  coord_cartesian(clip = "off") +  # prevents label clipping
+  labs(
+    title = "PCA Loading Volcano Plot (Top Contributors)",
+    x = "PC1 loading",
+    y = "PC3 loading",
+    color = "Contribution"
+  )
+```
+
+5. Combine the loading plot with the original PCA to see how these features drive dispersion in the original data structure.
+```{r}
+PCA_loadings_01_RT_top20_loading_plot_PC1_PC2 <- 
+
+  ggplot() +
+  
+  # sample points (scores)
+  geom_point(
+    data = PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables,
+    aes(PC1, PC2, colour = strain),
+    size = 4,
+    alpha = 0.9
+  ) +
+  
+    # black arrows for top metabolites
+  geom_segment(
+    data = PCA_loadings_01_RT_top20_PC1_PC2_volcano_data,
+    aes(x = 0, y = 0, xend = PC1, yend = PC2),
+    arrow = arrow(length = unit(0.2, "cm")),
+    colour = "black",
+    alpha = 0.8
+  ) +
+  
+  # non-overlapping labels
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top20_PC1_PC2,
+    aes(PC1, PC2, label = Metabolite),
+    size = 3,
+    box.padding = 0.6,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf,
+    force = 2
+  ) +
+  
+  theme_classic() +
+  labs(
+    x = paste0("PC1 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+    y = paste0("PC2 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[2],1), "%)"),
+    colour = "Strain")
+
+PCA_loadings_01_RT_top20_loading_plot_PC1_PC2
+ggsave("PCA_loadings_01_RT_top20_loading_plot_PC1_PC2_20260820.pdf", width = 10, height = 8, device = cairo_pdf)
+ggsave("PCA_loadings_01_RT_top20_loading_plot_PC1_PC2_20260820.jpg", width = 10, height = 8, device = "jpeg")
+
+#Plot PC1 vs PC3
+
+PCA_loadings_01_RT_top20_loading_plot_PC1_PC3 <- 
+
+  ggplot() +
+  
+  # sample points (scores)
+  geom_point(
+    data = PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables,
+    aes(PC1, PC3, colour = strain),
+    size = 4,
+    alpha = 0.9
+  ) +
+  
+    # black arrows for top metabolites
+  geom_segment(
+    data = PCA_loadings_01_RT_top20_PC1_PC3_volcano_data,
+    aes(x = 0, y = 0, xend = PC1, yend = PC3),
+    arrow = arrow(length = unit(0.2, "cm")),
+    colour = "black",
+    alpha = 0.8
+  ) +
+  
+  # non-overlapping labels
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top20_PC1_PC3,
+    aes(PC1, PC3, label = Metabolite),
+    size = 3,
+    box.padding = 0.6,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf,
+    force = 2
+  ) +
+  
+  theme_classic() +
+  labs(
+    x = paste0("PC1 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+    y = paste0("PC3 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[3],1), "%)"),
+    colour = "Strain"
+  )
+
+PCA_loadings_01_RT_top20_loading_plot_PC1_PC3
+ggsave("PCA_loadings_01_RT_top20_loading_plot_PC1_PC3_20260820.pdf", width = 8, height = 8, device = cairo_pdf)
+ggsave("PCA_loadings_01_RT_top20_loading_plot_PC1_PC3_20260820.jpg", width = 8, height = 8, device = "jpeg")
+```
+6. Repeat the visualization above but trim it down to the top 10 to tidy it up. Adjust the colour coding to match the colours in the boxplots form the "Dark2" palette.
+```{r}
+PCA_loadings_01_RT_top10_loading_plot_PC1_PC2 <- 
+
+  ggplot() +
+  
+  # sample points (scores)
+  geom_point(
+    data = PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables,
+    aes(PC1, PC2, colour = strain),
+    size = 4,
+    alpha = 0.9
+  ) +
+  
+    # black arrows for top metabolites
+  geom_segment(
+    data = PCA_loadings_01_RT_top10_PC1_PC2_volcano_data,
+    aes(x = 0, y = 0, xend = PC1, yend = PC2),
+    arrow = arrow(length = unit(0.2, "cm")),
+    colour = "black",
+    alpha = 0.8
+  ) +
+  
+  # non-overlapping labels
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top10_PC1_PC2,
+    aes(PC1, PC2, label = Metabolite),
+    size = 3,
+    box.padding = 0.6,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf,
+    force = 2
+  ) +
+  
+  scale_colour_manual(
+    breaks = c("Wildtype", "∆phz", "∆phz∆hcn"),
+    values = c(
+      "Wildtype" = "#1B9E77",  # turquoise (Dark2)
+      "∆phz" = "#D95F02",  # orange (Dark2)
+      "∆phz∆hcn" = "#E7298A"   # magenta (Dark2)
+    )
+  ) +
+  
+  labs(
+    x = paste0("PC1 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+    y = paste0("PC2 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[2],1), "%)"),
+    colour = "Strain") +
+  
+  theme_classic() +
+  
+    theme(axis.text.x = element_text(size = 16, colour = "black"),
+        axis.title.x = element_text(size = 18),
+        axis.text.y = element_text(size = 16, colour = "black"),
+        axis.title.y = element_text(size = 18),
+        legend.text = element_text(size = 16),
+        legend.title = element_text(size = 20))
+
+PCA_loadings_01_RT_top10_loading_plot_PC1_PC2
+ggsave("PCA_loadings_01_RT_top10_loading_plot_PC1_PC2_20260820.pdf", width = 10, height = 8, device = cairo_pdf)
+ggsave("PCA_loadings_01_RT_top10_loading_plot_PC1_PC2_20260820.jpg", width = 10, height = 8, device = "jpeg")
+
+#Plot PC1 vs PC3
+
+PCA_loadings_01_RT_top10_loading_plot_PC1_PC3 <- 
+
+  ggplot() +
+  
+  # sample points (scores)
+  geom_point(
+    data = PCA_ordination_01_RT_no_scaling_scores_with_categorical_variables,
+    aes(PC1, PC3, colour = strain),
+    size = 4,
+    alpha = 0.9
+  ) +
+  
+    # black arrows for top metabolites
+  geom_segment(
+    data = PCA_loadings_01_RT_top10_PC1_PC3_volcano_data,
+    aes(x = 0, y = 0, xend = PC1, yend = PC3),
+    arrow = arrow(length = unit(0.2, "cm")),
+    colour = "black",
+    alpha = 0.8
+  ) +
+  
+  # non-overlapping labels
+  geom_text_repel(
+    data = PCA_loadings_01_RT_top10_PC1_PC3,
+    aes(PC1, PC3, label = Metabolite),
+    size = 3,
+    box.padding = 0.6,
+    point.padding = 0.4,
+    segment.color = "grey50",
+    max.overlaps = Inf,
+    force = 2
+  ) +
+  
+  scale_colour_manual(
+    breaks = c("Wildtype", "∆phz", "∆phz∆hcn"),
+    values = c(
+      "Wildtype" = "#1B9E77",  # turquoise (Dark2)
+      "∆phz" = "#D95F02",  # orange (Dark2)
+      "∆phz∆hcn" = "#E7298A"   # magenta (Dark2)
+    )
+  ) +
+  
+    labs(
+    x = paste0("PC1 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[1], 1),"%)"),
+    y = paste0("PC3 (", round(PCA_ordination_01_RT_no_scaling_variance_explained[3],1), "%)"),
+    colour = "Strain"
+  ) +
+  
+  theme_classic() +
+  theme(axis.text.x = element_text(size = 16, colour = "black"),
+        axis.title.x = element_text(size = 18),
+        axis.text.y = element_text(size = 16, colour = "black"),
+        axis.title.y = element_text(size = 18),
+        legend.text = element_text(size = 16),
+        legend.title = element_text(size = 20))
+
+
+PCA_loadings_01_RT_top10_loading_plot_PC1_PC3
+ggsave("PCA_loadings_01_RT_top10_loading_plot_PC1_PC3_20260820.pdf", width = 10, height = 8, device = cairo_pdf)
+ggsave("PCA_loadings_01_RT_top10_loading_plot_PC1_PC3_20260820.jpg", width = 10, height = 8, device = "jpeg")
+```
+
+
+## 2.1 Loading plot (Figure S5B) interpretation for 0.1 RT data
+
+Interpret the loading plot bearing in mind some of the molar masses predicted from the standards and the biosynthetic gene cluster data:
+
+Phenazine standards (molecular mass)
+- Phenazine, PHZ: 180.21 g/mol
+- Phenazine-1-carboxylic acid, PCA: 224.21 g/mol
+- Phenazine-1-carboxamide, PCN: 223.23 g/mol
+- 2-hydroxyphenazine, 2-OHPHZ: 196.21 g/mol
+- 1-hydroxyphenazine, 1-OHPHZ: 196.21 g/mol
+
+*Produced by strain (PCA standard used as proxy)
+- 2-hydroxyphenazine-1-carboxylic acid, 2-OHPCA: 240.22 g/mol
+
+
+Biosynthetic gene cluster predictions (molecular mass)
+- Vibrioferrin: 434.35 g/mol
+- Schizokinen: 420.41 g/mol
+- Pf-5 Pyoverdin: 1175.1570 g/mol
+- Pyoverdine SXM-1: 1278.254 g/mol (from formula C52H75N15O23)
+
+Top 10 from PCA loadings:
+- 207.08505@10.04
+- 274.30708@9.55
+- 290.26531@9.6
+- 275.27993@9.51
+- 179.08691@10.06
+- 288.3009@9.87
+- 288.29741@9.83
+- 207.05773@9.76
+- 225.09846@10.02
+- 318.29865@9.56
+
+Looking at this biplot and which ones seem to drive the most separation along PC1 and PC3 moving with the wild type:
+- 207.08505@10.04: Closest match is a fragmented product of PCA from loss of water in Table S7
+- 207.05773@9.76: Same comment as above
+- 225.09846@10.02: Possibly parent compound for PCA (M+H peak from Table S7)
+- 179.08691@10.06: Closest to phenazine (180.21) from Table S7, but off from M+H by 2 hydrogens (possibly deprotonated at nitrogens in ring system) 
+
+Strong drivers along PC1 for the double deletion mutant:
+- 274.30708@9.55
+- 290.26531@9.6
+- 318.29865@9.56
+- 288.3009@9.87 (very similar to 288.29741@9.83 that is driving ∆phz mutant, so may not be unique to ∆phz∆hcn mutant)
+*Note*: No putative phenazine adducts or compounds could be tied to these mz@rt values with MS1 data available
+
+
+Analysis for candidate molecules:
+Top 10 results from KW test (ran in the FBMN web portal):
+- 270.31316@11.62
+- 332.33081@11.29
+- 400.28945@12.6 --> maybe small metallophore?
+- 427.30264@12.57 --> maybe small metallophore?
+- 242.28084@10.92
+- 444.32723@12.57 --> maybe small metallophore?
+- 405.262@12.59 --> maybe small metallophore?
+- 449.28663@12.57 --> maybe small metallophore?
+- 383.28008@12.6
+- 428.32027@12.59 --> maybe small metallophore?
+
+These tests say two different things though. The loading scores say which metabolites explain the most variance in the data, not which ones differ significantly bearing in mind variability across the different sample groups. The KW is a non-parametric test to compare differences that relies on ranking (more conservative) to indicate where differences in data may occur. Apparent differences between these two top 10 results could be from many, many features at play. Here we have applied an arbitrary top 10 cutoff to simplify visualizing the data. 
+
+It cannot be discounted that there is in-source fragmentation occurring, where we may be detecting a family of metallophores such that it is not aligning with the suspect molar masses for theoretical compounds. Alternatively, these could be different compounds that are not well predicted by the software. Even still, it is interesting to see this clustering and that most of the ones in the ~ 400 range tend to be higher for the double deletion mutants.
+
+A better way to do this comparison is to run the Dunn's test between two levels of the treatment, such as WT vs ∆phz∆hcn. Volcano plots can be generated in the FBMN portal and the most significant features can be compared.
+
+Quickly doing this, it looks like there are many significant features in ∆phz∆hcn ~ 1000 Da mark that are not emerging as "the most significant" differences when considering the whole data set. However, the significance of this difference does not necessarily speak to their magnitude between two treatments. 
+
+## 2.2 Run Kruskal-Wallis tests and Dunn's comparisons in FBMN
+
+- Vibrioferrin: 434.35 g/mol
+- Schizokinen: 420.41 g/mol
+- Pf-5 Pyoverdin: 1175.1570 g/mol
+- Pyoverdine SXM-1: 1278.254 g/mol (from formula C52H75N15O23)
+
+1. The KW and Dunn's tests were run in the FBMN portal. Now, we want to bring them in and use logical arguments to assess whether the m/z values align with the putative metallophores identified in biosynthetic gene cluster analyses.
+
+```{r}
+WT_vs_DD_dunns_table <- fread("Pseudomonas_metabolome_mzMine_2026-06-22_0.1RT_Dunns_test_results_WT_vs_double_deletion.csv")
+
+Pyoverdine_candidates_DD <-  WT_vs_DD_dunns_table %>%
+                             separate(
+                             metabolite,
+                              into = c("mz", "RT"),
+                              sep = "@",
+                              convert = TRUE) %>%
+                             filter(mz >=1000 & significant == "TRUE") %>%
+                             mutate(negative_log_p = -log(`p-corrected`)) %>%
+                             arrange(desc(negative_log_p)) %>%
+                             filter(rank_sum_diff < 0) #this means it is higher in the ∆phz∆hcn because of how the comparison was set up
+
+Pyoverdine_candidates_WT <-  WT_vs_DD_dunns_table %>%
+                             separate(
+                             metabolite,
+                              into = c("mz", "RT"),
+                              sep = "@",
+                              convert = TRUE) %>%
+                             filter(mz >=1000 & significant == "TRUE") %>%
+                             mutate(negative_log_p = -log(`p-corrected`)) %>%
+                             arrange(desc(negative_log_p)) %>%
+                             filter(rank_sum_diff > 0)
+
+Siderophore_candidates_DD <- WT_vs_DD_dunns_table %>%
+                         separate(
+                         metabolite,
+                          into = c("mz", "RT"),
+                          sep = "@",
+                          convert = TRUE) %>%
+                         filter(between(mz, 415, 450) & significant == "TRUE") %>%
+                         filter(RT >= 2) %>%
+                         mutate(negative_log_p = -log(`p-corrected`)) %>%
+                         arrange(desc(negative_log_p)) %>%
+                         filter(rank_sum_diff < 0) #this means it is higher in the ∆phz∆hcn because of how the comparison was set up
+```
+
+### Manual inspection of Dunn's results
+
+Significant results from the Dunn's test were compared to boxplots across treatments in the FBMN portal (from Kruskal-Wallis) to determine which features of putative metallophores and/or pyoverdines show significantly higher detection intensities (in µ) in the double deletion mutant vs ∆phz vs wild type. The mz@rt combinations highlighted below show the most promising candidates in the ∆phz∆hcn mutant, which could correspond to putative Co(2+)-binding metabolites requiring more study. These boxplots were imported from the FBMN portal as Figures S7 & S8 in the Supplementary Information.
+
+*Pyoverdines*
+*1095.226@12.99*: DD has max of 0.0012, highly variable, imputed values in ∆phz and WT
+1074.297@13.01: Same as above
+1003.245@12.93: Very small intensity maxing out at 300 µ = 0.000300, high in DD and ∆phz but not WT
+1020.200@12.96: Same as above
+1111.489@12.63: DD maxing out at 30 µ, ∆phz and WT look the same and are low
+1028.507@11.65: Same as 1095.22@12.99, but much lower intensity at 30 µ
+1025.455@12.53: Same as above
+
+- First comparison for 1095.226@12.99 is the most compelling
+- Low intensity and high variance make it difficult to appreciate the biological effect size
+- No candidates have low variance and are obviously much higher in DD vs WT
+- Does not mean pyoverdines cannot do a lot even if low signal intensity
+- 18 putative pyoverdines are also more abundant in the wild type, so there is not anything obvious here suggesting that one phenotype produces more putative than another
+
+*Metallophores*
+- *444.32782@12.75*: Clear difference between all three groups, with DD being highest ~ 0.006 and WT likely imputed
+- 449.2851@12.75: Same as above
+- 416.3288@11.02: DD higher than other two treatments, but quite variable, maxing out at 0.0035
+- 427.0922@10.25: ∆phz and DD higher than WT but highly variable maxing out at ~ 80 µ
+- 428.35229@10.94: DD is highest, ∆phz and WT are comparably low but everything is low intensity at 120 µ
+- 428.34373@10.51: DD and ∆phz are the same, WT is low, but everything is low intensity maxing out at 120 µ
+- 430.23434@7.67: ∆phz is highest, DD 2nd, WT is lowest, but low intensity at 700 µ
+- *430.3807@11.62*: DD is highest, but quite high variability, ∆phz and WT comparable low and look imputed
+- 432.2554@10.49: ∆phz is highest, DD 2nd but highly variable, WT is lowest, 
+- 432.2787@9.93: Same as above but DD is highest
+- 438.3393@10.39: DD and ∆phz are higher but highly variable vs WT all low intensity 600 µ
+- 428.3191@9.73: ∆phz higher than DD and WT, but all low intensity < 150 µ
+- *440.3999@11.56*: DD is highest, but quite variable, as are all other treatments, but this is higher intensity at 0.003
+- 446.2547@10.50: ∆phz higher than DD and WT, but all low intensity < 150 µ
+- 420.1782@8.91: DD and ∆phz are the same, WT is low, but everything is low intensity maxing out at 120 µ
+- 441.8333@13.04: No real difference here, one extreme value at low intensity from DD driving difference
+- 429.3124@9.68: ∆phz higher than DD and WT, but all low intensity < 150 µ
+- 433.2324@6.27: ∆phz higher than DD and WT, but all low intensity < 150 µ
+- 432.2593@6.94: No real difference here, one extreme value at low intensity from DD driving difference
